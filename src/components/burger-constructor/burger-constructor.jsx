@@ -4,8 +4,8 @@ import styles from "./burger-constructor.module.css";
 class BurgerConstructor extends React.Component {
   render() {
     return (
-        <section className={`mt-25 ${styles.constructor_box}`}>
-          <h2>Собери бургер</h2>
+        <section className={styles.constructor_box}>
+          <h2 className={styles.title}>Собери бургер</h2>
         </section>
     )
   }

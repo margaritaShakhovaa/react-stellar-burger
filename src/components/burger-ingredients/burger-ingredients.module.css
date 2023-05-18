@@ -1,4 +1,16 @@
 .ingredients_box {
     display: flex;
     flex-direction: column;
+    max-height: 912px;
+}
+
+.filter {
+    display: flex;
+}
+
+.ingredients {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
 }

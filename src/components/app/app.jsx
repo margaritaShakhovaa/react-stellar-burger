@@ -8,8 +8,8 @@ function App() {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <main className={styles.main}>
-        <BurgerIngredients />
+      <main className={`mt-10 ${styles.main}`}>
+        <BurgerIngredients data={ data } />
         <BurgerConstructor />
       </main>
     </div>
