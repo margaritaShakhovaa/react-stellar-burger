@@ -30,19 +30,19 @@ const BurgerIngredients = (props) => {
 
             <ul className={`${styles.ingredients} custom-scroll`}>
               <h3 className={`mt-10 mb-6 text text_type_main-medium ${styles.bread}`}>Булки</h3>
-              <li className={styles.card}>
+              <li className={`pr-2 pl-4 ${styles.card}`}>
                 {bread.map((item) => (
                     <Card card={item} key={item._id} />
                 ))}
               </li>
               <h3 className={`mt-10 mb-6 text text_type_main-medium ${styles.sauce}`}>Соусы</h3>
-              <li className={styles.card}>
+              <li className={`pr-2 pl-4 ${styles.card}`}>
                 {sauces.map((item) => (
                     <Card card={item} key={item._id} />
                 ))}
               </li>
               <h3 className={`mt-10 mb-6 text text_type_main-medium ${styles.filling}`}>Начинки</h3>
-              <li className={styles.card}>
+              <li className={`pr-2 pl-4 ${styles.card}`}>
                 {fillings.map((item) => (
                     <Card card={item} key={item._id} />
                 ))}
