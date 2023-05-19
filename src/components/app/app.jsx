@@ -9,7 +9,7 @@ function App() {
     <div className={styles.app}>
       <AppHeader />
       <main className={`mt-10 ${styles.main}`}>
-        <BurgerIngredients data={ data } />
+        <BurgerIngredients data={data}/>
         <BurgerConstructor />
       </main>
     </div>

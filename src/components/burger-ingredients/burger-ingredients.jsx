@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "./burger-ingredients.module.css";
-import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import Card from '../card/card';
 
-function BurgerIngredients (props) {
+const BurgerIngredients = (props) => {
 
   const ingredients = props.data;
 
@@ -13,10 +14,9 @@ function BurgerIngredients (props) {
   const [current, setCurrent] = React.useState('one');
 
     return (
-        <>
-          <section className={styles.ingredients_box}>
+          <section className={`mb-10 ${styles.ingredients_box}`}>
             <h1 className="text text_type_main-large">Собери бургер</h1>
-            <div className={`mt-5 ${styles.filter}`}>
+            <div className={`mt-5`} style={{ display: 'flex' }}>
               <Tab value="one" active={current === 'one'} onClick={setCurrent}>
                 Булки
               </Tab>
@@ -27,13 +27,28 @@ function BurgerIngredients (props) {
                 Начинки
               </Tab>
             </div>
-            <ul className={`custom-scroll ${styles.ingredients}`}>
+
+            <ul className={`${styles.ingredients} custom-scroll`}>
               <h3 className={`mt-10 mb-6 text text_type_main-medium ${styles.bread}`}>Булки</h3>
+              <li className={styles.card}>
+                {bread.map((item) => (
+                    <Card card={item} key={item._id} />
+                ))}
+              </li>
               <h3 className={`mt-10 mb-6 text text_type_main-medium ${styles.sauce}`}>Соусы</h3>
+              <li className={styles.card}>
+                {sauces.map((item) => (
+                    <Card card={item} key={item._id} />
+                ))}
+              </li>
               <h3 className={`mt-10 mb-6 text text_type_main-medium ${styles.filling}`}>Начинки</h3>
+              <li className={styles.card}>
+                {fillings.map((item) => (
+                    <Card card={item} key={item._id} />
+                ))}
+              </li>
             </ul>
           </section>
-        </>
     )
 }
 
