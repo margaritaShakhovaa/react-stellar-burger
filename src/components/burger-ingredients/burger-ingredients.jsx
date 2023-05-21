@@ -14,9 +14,9 @@ const BurgerIngredients = (props) => {
   const [current, setCurrent] = React.useState('one');
 
     return (
-          <section className={`mb-10 ${styles.ingredients_box}`}>
+          <section className={styles.ingredients_box}>
             <h1 className="text text_type_main-large">Собери бургер</h1>
-            <div className={`mt-5`} style={{ display: 'flex' }}>
+            <div className={`mt-5 mb-10`} style={{ display: 'flex' }}>
               <Tab value="one" active={current === 'one'} onClick={setCurrent}>
                 Булки
               </Tab>
@@ -29,7 +29,7 @@ const BurgerIngredients = (props) => {
             </div>
 
             <ul className={`${styles.ingredients} custom-scroll`}>
-              <h3 className={`mt-10 mb-6 text text_type_main-medium ${styles.bread}`}>Булки</h3>
+              <h3 className={`mb-6 text text_type_main-medium ${styles.bread}`}>Булки</h3>
               <li className={`pr-2 pl-4 ${styles.card}`}>
                 {bread.map((item) => (
                     <Card card={item} key={item._id} />
