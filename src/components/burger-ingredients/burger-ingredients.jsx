@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Card from '../card/card';
+import PropTypes from "prop-types";
+import {ingredientPropType} from "../../utils/prop-types";
 
 const BurgerIngredients = (props) => {
 
@@ -29,19 +31,19 @@ const BurgerIngredients = (props) => {
             </div>
 
             <ul className={`${styles.ingredients} custom-scroll`}>
-              <h3 className={`mb-6 text text_type_main-medium ${styles.bread}`}>Булки</h3>
+              <h3 className={`mb-6 text text_type_main-medium`}>Булки</h3>
               <li className={`pr-2 pl-4 ${styles.card}`}>
                 {bread.map((item) => (
                     <Card card={item} key={item._id} />
                 ))}
               </li>
-              <h3 className={`mt-10 mb-6 text text_type_main-medium ${styles.sauce}`}>Соусы</h3>
+              <h3 className={`mt-10 mb-6 text text_type_main-medium`}>Соусы</h3>
               <li className={`pr-2 pl-4 ${styles.card}`}>
                 {sauces.map((item) => (
                     <Card card={item} key={item._id} />
                 ))}
               </li>
-              <h3 className={`mt-10 mb-6 text text_type_main-medium ${styles.filling}`}>Начинки</h3>
+              <h3 className={`mt-10 mb-6 text text_type_main-medium`}>Начинки</h3>
               <li className={`pr-2 pl-4 ${styles.card}`}>
                 {fillings.map((item) => (
                     <Card card={item} key={item._id} />
@@ -51,5 +53,9 @@ const BurgerIngredients = (props) => {
           </section>
     )
 }
+
+BurgerIngredients.propTypes = {
+  data: PropTypes.arrayOf(ingredientPropType)
+};
 
 export default BurgerIngredients;

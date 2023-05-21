@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./burger-constructor.module.css";
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
+import { ingredientPropType } from "../../utils/prop-types";
 
 const calcTotal = (items) => {
   let total = 0;
@@ -25,7 +27,7 @@ const BurgerConstructor = (props) => {
                     text={`${bread.name} (верх)`}
                     price={bread.price}
                     thumbnail={bread.image}
-                    extraClass={`ml-2`}
+                    extraClass={`ml-4`}
                 />
 
 
@@ -51,7 +53,7 @@ const BurgerConstructor = (props) => {
                     text={`${bread.name} (низ)`}
                     price={bread.price}
                     thumbnail={bread.image}
-                    extraClass={`ml-2`}
+                    extraClass={`ml-4`}
                 />
 
             </div>
@@ -67,5 +69,9 @@ const BurgerConstructor = (props) => {
         </section>
     )
 }
+
+BurgerConstructor.propTypes = {
+  data: PropTypes.arrayOf(ingredientPropType)
+};
 
 export default BurgerConstructor;
