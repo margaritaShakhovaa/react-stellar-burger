@@ -13,7 +13,7 @@ Stellar Burger - проект в рамках обучения в Яндекс �
 
 **Figma**
 
-* [Ссылка на макет в Figma] (https://www.figma.com/file/ocw9a6hNGeAejl4F3G9fp8/React-_-Проектные-задачи-(3-месяца)_external_link?type=design&node-id=0-1&t=uERJSLctMQxvh0ld-0)
+* [Ссылка на макет в Figma](https://www.figma.com/file/ocw9a6hNGeAejl4F3G9fp8/React-_-Проектные-задачи-(3-месяца)_external_link?type=design&node-id=0-1&t=uERJSLctMQxvh0ld-0)
 
 **Технологии**
 
