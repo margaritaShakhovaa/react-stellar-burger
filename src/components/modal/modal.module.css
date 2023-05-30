@@ -6,19 +6,32 @@
     justify-content: center;
     align-items: center;
     top: 0;
-    left: 0;
-    z-index: 5;
+    right: 0;
+    z-index: 999;
 }
 
 .container {
     min-width: 720px;
     border-radius: 40px;
     background-color: #1C1C21;
-    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    flex-direction: column;
 }
 
-.button {
+.header {
+    margin-top: 40px;
+    max-width: 640px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.close_button {
+    cursor: pointer;
     background-color: #1C1C21;
     border: none;
-    cursor: pointer;
 }

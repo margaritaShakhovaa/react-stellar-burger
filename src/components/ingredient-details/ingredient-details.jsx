@@ -2,27 +2,27 @@ import React from "react";
 import styles from './ingredient-details.module.css'
 import {ingredientPropType} from "../../utils/prop-types";
 
-function IngredientDetails( { item }) {
+function IngredientDetails( { item } ) {
   return (
       <div className={styles.container}>
-        <img src={item.image} alt="Ингредиент"/>
-        <p className={styles.title}>{item.name}</p>
-        <ul className={styles.list}>
+        <img className={styles.image} src={item.image} alt="Ингредиент"/>
+        <p className={'mt-4 text text_type_main-medium'}>{item.name}</p>
+        <ul className={`mt-8 ${styles.list}`}>
           <li className={styles.list_item}>
-            <p>Калории,ккал</p>
-            <p>{item.calories}</p>
+            <p className={'text text_type_main-default text_color_inactive'}>Калории,ккал</p>
+            <p className={'text text_type_main-default text_color_inactive'}>{item.calories}</p>
           </li>
           <li className={styles.list_item}>
-            <p>Белки, г</p>
-            <p>{item.proteins}</p>
+            <p className={'text text_type_main-default text_color_inactive'}>Белки, г</p>
+            <p className={'text text_type_main-default text_color_inactive'}>{item.proteins}</p>
           </li>
           <li className={styles.list_item}>
-            <p>Жиры, г</p>
-            <p>{item.fat}</p>
+            <p className={'text text_type_main-default text_color_inactive'}>Жиры, г</p>
+            <p className={'text text_type_main-default text_color_inactive'}>{item.fat}</p>
           </li>
           <li className={styles.list_item}>
-            <p>Углеводы, г</p>
-            <p>{item.carbohydrates}</p>
+            <p className={'text text_type_main-default text_color_inactive'}>Углеводы, г</p>
+            <p className={'text text_type_main-default text_color_inactive'}>{item.carbohydrates}</p>
           </li>
         </ul>
       </div>
@@ -31,6 +31,6 @@ function IngredientDetails( { item }) {
 
 export default IngredientDetails;
 
-// IngredientDetails.propTypes = {
-//   item: ingredientPropType.isRequired
-// };
+IngredientDetails.propTypes = {
+  item: ingredientPropType.isRequired,
+};

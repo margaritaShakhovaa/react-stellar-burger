@@ -3,6 +3,8 @@ import styles from "./burger-constructor.module.css";
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import { ingredientPropType } from "../../utils/prop-types";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
 
 const calcTotal = (items) => {
   let total = 0;
@@ -16,6 +18,8 @@ const BurgerConstructor = (props) => {
 
     const ingredients = props.data;
     const bread = ingredients.find(item => item.type === 'bun');
+
+    const [isOpen, setIsOpen] = React.useState(false);
 
     return (
         <section className={styles.constructor_box}>
@@ -62,11 +66,15 @@ const BurgerConstructor = (props) => {
               <p className="text text_type_digits-medium">{calcTotal(ingredients)}</p>
               <CurrencyIcon type="primary" />
             </div>
-            <Button htmlType="button" type="primary" size="large">
+            <Button htmlType="button" type="primary" size="large" onClick={() => setIsOpen(true)}>
               Оформить заказ
             </Button>
           </div>
+          <Modal handleClose={() => setIsOpen(false)} isOpen={isOpen}>
+            <OrderDetails></OrderDetails>
+          </Modal>
         </section>
+
     )
 }
 

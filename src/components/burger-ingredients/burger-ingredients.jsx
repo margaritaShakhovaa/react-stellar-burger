@@ -4,6 +4,8 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Card from '../card/card';
 import PropTypes from "prop-types";
 import {ingredientPropType} from "../../utils/prop-types";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
 const BurgerIngredients = (props) => {
 
@@ -14,6 +16,8 @@ const BurgerIngredients = (props) => {
   const fillings = ingredients.filter(item => item.type === 'main');
 
   const [current, setCurrent] = React.useState('bun');
+
+  const [isOpen, setIsOpen] = React.useState(null);
 
     return (
           <section className={styles.ingredients_box}>
@@ -34,22 +38,25 @@ const BurgerIngredients = (props) => {
               <h3 className={`mb-6 text text_type_main-medium`}>Булки</h3>
               <ul className={`pr-2 pl-4 ${styles.card}`}>
                 {bread.map((item) => (
-                    <Card card={item} key={item._id} />
+                    <Card card={item} key={item._id} onClick={setIsOpen}/>
                 ))}
               </ul>
               <h3 className={`mt-10 mb-6 text text_type_main-medium`}>Соусы</h3>
               <ul className={`pr-2 pl-4 ${styles.card}`}>
                 {sauces.map((item) => (
-                    <Card card={item} key={item._id} />
+                    <Card card={item} key={item._id} onClick={setIsOpen}/>
                 ))}
               </ul>
               <h3 className={`mt-10 mb-6 text text_type_main-medium`}>Начинки</h3>
               <ul className={`pr-2 pl-4 ${styles.card}`}>
                 {fillings.map((item) => (
-                    <Card card={item} key={item._id} />
+                    <Card card={item} key={item._id} onClick={setIsOpen}/>
                 ))}
               </ul>
             </ul>
+            <Modal handleClose={() => setIsOpen(false)} isOpen={isOpen} header={"Детали ингредиента"}>
+              <IngredientDetails item={isOpen}></IngredientDetails>
+            </Modal>
           </section>
     )
 }
