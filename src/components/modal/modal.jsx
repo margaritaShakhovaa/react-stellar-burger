@@ -38,7 +38,10 @@ function Modal(props) {
 export default Modal;
 
 Modal.propTypes = {
-  isOpen: PropTypes.bool,
+  isOpen: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.object
+  ]),
   handleClose: PropTypes.func,
   header: PropTypes.string,
   children: PropTypes.element

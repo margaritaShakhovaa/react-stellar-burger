@@ -17,7 +17,7 @@ const BurgerIngredients = (props) => {
 
   const [current, setCurrent] = React.useState('bun');
 
-  const [isOpen, setIsOpen] = React.useState(null);
+  const [card, openCard] = React.useState(null);
 
     return (
           <section className={styles.ingredients_box}>
@@ -38,24 +38,24 @@ const BurgerIngredients = (props) => {
               <h3 className={`mb-6 text text_type_main-medium`}>Булки</h3>
               <ul className={`pr-2 pl-4 ${styles.card}`}>
                 {bread.map((item) => (
-                    <Card card={item} key={item._id} onClick={setIsOpen}/>
+                    <Card card={item} key={item._id} onClick={openCard}/>
                 ))}
               </ul>
               <h3 className={`mt-10 mb-6 text text_type_main-medium`}>Соусы</h3>
               <ul className={`pr-2 pl-4 ${styles.card}`}>
                 {sauces.map((item) => (
-                    <Card card={item} key={item._id} onClick={setIsOpen}/>
+                    <Card card={item} key={item._id} onClick={openCard}/>
                 ))}
               </ul>
               <h3 className={`mt-10 mb-6 text text_type_main-medium`}>Начинки</h3>
               <ul className={`pr-2 pl-4 ${styles.card}`}>
                 {fillings.map((item) => (
-                    <Card card={item} key={item._id} onClick={setIsOpen}/>
+                    <Card card={item} key={item._id} onClick={openCard}/>
                 ))}
               </ul>
             </ul>
-            <Modal handleClose={() => setIsOpen(false)} isOpen={isOpen} header={"Детали ингредиента"}>
-              <IngredientDetails item={isOpen}></IngredientDetails>
+            <Modal handleClose={() => openCard(null)} isOpen={card} header={"Детали ингредиента"}>
+              <IngredientDetails card={card}></IngredientDetails>
             </Modal>
           </section>
     )
