@@ -39,10 +39,10 @@ export default Modal;
 
 Modal.propTypes = {
   isOpen: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.object
+      PropTypes.bool.isRequired,
+      PropTypes.object.isRequired
   ]),
-  handleClose: PropTypes.func,
-  header: PropTypes.string,
-  children: PropTypes.element
+  handleClose: PropTypes.func.isRequired,
+  header: PropTypes.string.isRequired,
+  children: PropTypes.element.isRequired
 }

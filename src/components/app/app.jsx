@@ -3,28 +3,22 @@ import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
+import { getIngredients } from "../../utils/burgers-api";
 
-const apiUrl = 'https://norma.nomoreparties.space/api/ingredients';
 
 function App() {
 
   const [ingredients, setIngredients] = React.useState([] );
+  const [error, setError] = React.useState(null);
 
   React.useEffect(() => {
-    getIngredientData();
+    getIngredients()
+        .then(res => setIngredients(res.data))
+        .catch(err => {
+          setError("Sorry, something went wrong")
+          console.log(err)})
   }, []);
 
-  const getIngredientData = () => {
-    fetch(apiUrl)
-        .then(res => {
-          if (res.ok) {
-            return res.json();
-          }
-          return Promise.reject(`Ошибка ${res.status}`);
-        })
-        .then(res => setIngredients(res.data))
-        .catch(error => console.log(error))
-  }
 
   const data = ingredients;
 

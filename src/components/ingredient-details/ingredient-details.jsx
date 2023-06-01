@@ -32,5 +32,5 @@ function IngredientDetails( { card } ) {
 export default IngredientDetails;
 
 IngredientDetails.propTypes = {
-  card: ingredientPropType
+  card: ingredientPropType.isRequired
 };
