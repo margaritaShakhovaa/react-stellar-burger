@@ -1,0 +1,26 @@
+.container {
+    width: 720px;
+    background-color: #1C1C21;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 40px;
+}
+
+.image {
+    min-width: 480px;
+}
+
+.list {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 60px;
+}
+
+.list_card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

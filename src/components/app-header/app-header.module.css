@@ -1,0 +1,25 @@
+.header {
+    background-color: #1C1C21;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 88px;
+    position: relative;
+}
+
+.menu {
+    display: flex;
+}
+
+.menu_item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.logo {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+}
