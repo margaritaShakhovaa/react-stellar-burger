@@ -2,14 +2,13 @@ import React from "react";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Card from '../card/card';
-import PropTypes from "prop-types";
-import {ingredientPropType} from "../../utils/prop-types";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import { Context } from "../../services/Context";
 
-const BurgerIngredients = (props) => {
+const BurgerIngredients = () => {
 
-  const ingredients = props.data;
+  const ingredients = React.useContext(Context);
 
   const bread = ingredients.filter(item => item.type === 'bun');
   const sauces = ingredients.filter(item => item.type === 'sauce');
@@ -60,9 +59,5 @@ const BurgerIngredients = (props) => {
           </section>
     )
 }
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropType).isRequired
-};
 
 export default BurgerIngredients;
