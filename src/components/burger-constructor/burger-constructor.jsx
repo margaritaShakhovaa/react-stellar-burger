@@ -38,7 +38,7 @@ const BurgerConstructor = () => {
 
     function reducer(state, action) {
       switch (action.type) {
-        case "set":
+        case "add":
           return { totalPrice: action.payload };
         case "reset":
           return priceInitialState;
@@ -49,7 +49,7 @@ const BurgerConstructor = () => {
 
     React.useEffect(() => {
       if (ingredients) {
-        dispatchTotalPrice({type: 'set', payload: totalPrice})
+        dispatchTotalPrice({type: 'add', payload: totalPrice})
       } else {
         dispatchTotalPrice({type: 'reset'})
       }
