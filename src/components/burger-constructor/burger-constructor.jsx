@@ -32,14 +32,12 @@ const BurgerConstructor = () => {
           .catch(error => console.log(error));
     };
 
-    const totalPrice = fillings.reduce((total, item) => total + item.price, 0) + (bread.price * 2);
     const priceInitialState = { totalPrice: 0 };
-    const [priceState, dispatchTotalPrice] = React.useReducer(reducer, priceInitialState, undefined);
 
     function reducer(state, action) {
       switch (action.type) {
         case "add":
-          return { totalPrice: action.payload };
+          return { totalPrice: state.totalPrice + action.payload };
         case "reset":
           return priceInitialState;
         default:
@@ -47,13 +45,17 @@ const BurgerConstructor = () => {
       }
     }
 
+    const [totalPriceState, dispatchTotalPrice] = React.useReducer(reducer, priceInitialState, undefined);
+
     React.useEffect(() => {
-      if (ingredients) {
-        dispatchTotalPrice({type: 'add', payload: totalPrice})
-      } else {
-        dispatchTotalPrice({type: 'reset'})
+      if (bread) {
+        dispatchTotalPrice({type: 'add', payload: bread.price * 2})
       }
-    }, [totalPrice, ingredients])
+      if (fillings) {
+        const fillingsTotalPrice = fillings.reduce((total, item) => total + item.price, 0);
+        dispatchTotalPrice({type: 'add', payload: fillingsTotalPrice})
+      }
+    }, [ingredients])
 
     return (
         <section className={styles.constructor_box}>
@@ -99,7 +101,7 @@ const BurgerConstructor = () => {
             </div>
           <div className={`mt-10 mr-4 ${styles.total}`}>
             <div className={styles.price}>
-              <p className="text text_type_digits-medium">{priceState.totalPrice}</p>
+              <p className="text text_type_digits-medium">{totalPriceState.totalPrice}</p>
               <CurrencyIcon type="primary" />
             </div>
             <Button htmlType="button" type="primary" size="large" onClick={createOrder}>
