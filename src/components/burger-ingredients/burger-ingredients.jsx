@@ -4,13 +4,13 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Card from '../card/card';
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import { Context } from "../../services/Context";
+import { Context } from "../../services/context";
 
 const BurgerIngredients = () => {
 
   const ingredients = React.useContext(Context);
 
-  const bread = ingredients.filter(item => item.type === 'bun');
+  const bun = ingredients.filter(item => item.type === 'bun');
   const sauces = ingredients.filter(item => item.type === 'sauce');
   const fillings = ingredients.filter(item => item.type === 'main');
 
@@ -36,7 +36,7 @@ const BurgerIngredients = () => {
             <ul className={`${styles.ingredients} custom-scroll`}>
               <h3 className={`mb-6 text text_type_main-medium`}>Булки</h3>
               <ul className={`pr-2 pl-4 ${styles.card}`}>
-                {bread.map((item) => (
+                {bun.map((item) => (
                     <Card card={item} key={item._id} onClick={openCard}/>
                 ))}
               </ul>

@@ -4,7 +4,7 @@ import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import { getIngredients } from "../../utils/burgers-api";
-import { Context } from "../../services/Context";
+import { Context } from "../../services/context";
 
 
 function App() {

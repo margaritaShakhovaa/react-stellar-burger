@@ -3,15 +3,28 @@ import styles from "./burger-constructor.module.css";
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { Context } from "../../services/Context";
+import { Context } from "../../services/context";
 import { getOrderNumber } from "../../utils/burgers-api";
+
+const priceInitialState = { totalPrice: 0 };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "add":
+      return { totalPrice: state.totalPrice + action.payload };
+    case "reset":
+      return priceInitialState;
+    default:
+      throw new Error(`Wrong type of action: ${action.type}`);
+  }
+}
 
 const BurgerConstructor = () => {
 
     const ingredients = React.useContext(Context);
 
     // булочки
-    const bread = ingredients.find(item => item.type === 'bun');
+    const bun = ingredients.find(item => item.type === 'bun');
 
     // остальные ингредиенты
     const fillings = ingredients.filter(item => item.type !== 'bun');
@@ -32,42 +45,27 @@ const BurgerConstructor = () => {
           .catch(error => console.log(error));
     };
 
-    const priceInitialState = { totalPrice: 0 };
-
-    function reducer(state, action) {
-      switch (action.type) {
-        case "add":
-          return { totalPrice: state.totalPrice + action.payload };
-        case "reset":
-          return priceInitialState;
-        default:
-          throw new Error(`Wrong type of action: ${action.type}`);
-      }
-    }
-
     const [totalPriceState, dispatchTotalPrice] = React.useReducer(reducer, priceInitialState, undefined);
 
+    const totalPrice = bun ? (bun.price * 2 + fillings.reduce((total, item) => total + item.price, 0)) : fillings.reduce((total, item) => total + item.price, 0);
+
     React.useEffect(() => {
-      if (bread) {
-        dispatchTotalPrice({type: 'add', payload: bread.price * 2})
+      if (ingredients) {
+        dispatchTotalPrice({type: 'add', payload: totalPrice});
       }
-      if (fillings) {
-        const fillingsTotalPrice = fillings.reduce((total, item) => total + item.price, 0);
-        dispatchTotalPrice({type: 'add', payload: fillingsTotalPrice})
-      }
-    }, [ingredients])
+    }, [ingredients, totalPrice])
 
     return (
         <section className={styles.constructor_box}>
             <div className={`mt-15 ${styles.constructor_container}`}>
 
-              {bread &&
+              {bun &&
                   <ConstructorElement
                       type="top"
                       isLocked={true}
-                      text={`${bread.name} (верх)`}
-                      price={bread.price}
-                      thumbnail={bread.image}
+                      text={`${bun.name} (верх)`}
+                      price={bun.price}
+                      thumbnail={bun.image}
                       extraClass={`ml-4`}
                   />
               }
@@ -87,13 +85,13 @@ const BurgerConstructor = () => {
                 )}
               </ul>
 
-              {bread &&
+              {bun &&
                   <ConstructorElement
                       type="bottom"
                       isLocked={true}
-                      text={`${bread.name} (низ)`}
-                      price={bread.price}
-                      thumbnail={bread.image}
+                      text={`${bun.name} (низ)`}
+                      price={bun.price}
+                      thumbnail={bun.image}
                       extraClass={`ml-4`}
                   />
               }
