@@ -2,18 +2,17 @@ import React from "react";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Card from '../card/card';
-import PropTypes from "prop-types";
-import {ingredientPropType} from "../../utils/prop-types";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import { Context } from "../../services/context";
 
-const BurgerIngredients = (props) => {
+const BurgerIngredients = () => {
 
-  const ingredients = props.data;
+  const ingredients = React.useContext(Context);
 
-  const bread = ingredients.filter(item => item.type === 'bun');
-  const sauces = ingredients.filter(item => item.type === 'sauce');
-  const fillings = ingredients.filter(item => item.type === 'main');
+  const bun = React.useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
+  const sauces = React.useMemo(() => ingredients.filter(item => item.type === 'sauce'), [ingredients]);
+  const fillings = React.useMemo(() => ingredients.filter(item => item.type === 'main'), [ingredients]);
 
   const [current, setCurrent] = React.useState('bun');
 
@@ -37,7 +36,7 @@ const BurgerIngredients = (props) => {
             <ul className={`${styles.ingredients} custom-scroll`}>
               <h3 className={`mb-6 text text_type_main-medium`}>Булки</h3>
               <ul className={`pr-2 pl-4 ${styles.card}`}>
-                {bread.map((item) => (
+                {bun.map((item) => (
                     <Card card={item} key={item._id} onClick={openCard}/>
                 ))}
               </ul>
@@ -60,9 +59,5 @@ const BurgerIngredients = (props) => {
           </section>
     )
 }
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropType).isRequired
-};
 
 export default BurgerIngredients;
