@@ -10,9 +10,9 @@ const BurgerIngredients = () => {
 
   const ingredients = React.useContext(Context);
 
-  const bun = ingredients.filter(item => item.type === 'bun');
-  const sauces = ingredients.filter(item => item.type === 'sauce');
-  const fillings = ingredients.filter(item => item.type === 'main');
+  const bun = React.useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
+  const sauces = React.useMemo(() => ingredients.filter(item => item.type === 'sauce'), [ingredients]);
+  const fillings = React.useMemo(() => ingredients.filter(item => item.type === 'main'), [ingredients]);
 
   const [current, setCurrent] = React.useState('bun');
 

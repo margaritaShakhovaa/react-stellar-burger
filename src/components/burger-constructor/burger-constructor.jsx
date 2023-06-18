@@ -24,10 +24,10 @@ const BurgerConstructor = () => {
     const ingredients = React.useContext(Context);
 
     // булочки
-    const bun = ingredients.find(item => item.type === 'bun');
+    const bun = React.useMemo(() => ingredients.find(item => item.type === 'bun'), [ingredients]);
 
     // остальные ингредиенты
-    const fillings = ingredients.filter(item => item.type !== 'bun');
+    const fillings = React.useMemo(() => ingredients.filter(item => item.type !== 'bun'), [ingredients]);
 
     // состояние модального окна
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
@@ -47,13 +47,12 @@ const BurgerConstructor = () => {
 
     const [totalPriceState, dispatchTotalPrice] = React.useReducer(reducer, priceInitialState, undefined);
 
-    const totalPrice = bun ? (bun.price * 2 + fillings.reduce((total, item) => total + item.price, 0)) : fillings.reduce((total, item) => total + item.price, 0);
-
     React.useEffect(() => {
       if (ingredients) {
+        const totalPrice = bun ? (bun.price * 2 + fillings.reduce((total, item) => total + item.price, 0)) : fillings.reduce((total, item) => total + item.price, 0);
         dispatchTotalPrice({type: 'add', payload: totalPrice});
       }
-    }, [ingredients, totalPrice])
+    }, [ingredients])
 
     return (
         <section className={styles.constructor_box}>
