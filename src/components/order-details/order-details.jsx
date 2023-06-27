@@ -1,9 +1,12 @@
 import styles from './order-details.module.css';
 import React from "react";
 import done from '../../images/done.svg'
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
-function OrderDetails({ orderNumber }) {
+function OrderDetails() {
+
+  const orderNumber = useSelector((store) => store.order.order);
+
   return (
       <div className={styles.container}>
         <p className='text text_type_digits-large'>{orderNumber}</p>
@@ -13,10 +16,6 @@ function OrderDetails({ orderNumber }) {
         <p  className='text text_type_main-small text_color_inactive mt-2'>Дождитесь готовности на орбитальной станции</p>
       </div>
   )
-}
-
-OrderDetails.propTypes = {
-  orderNumber: PropTypes.number.isRequired
 }
 
 export default OrderDetails;

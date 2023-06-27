@@ -1,14 +1,19 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Card from '../card/card';
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import { Context } from "../../services/context";
+import { useDispatch, useSelector } from "react-redux";
+import { getIngredients } from "../../services/actions/ingredients";
 
 const BurgerIngredients = () => {
 
-  const ingredients = React.useContext(Context);
+  const ingredients = useSelector((store) => store.ingredients.ingredients);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getIngredients())
+  }, [dispatch]);
 
   const bun = React.useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
   const sauces = React.useMemo(() => ingredients.filter(item => item.type === 'sauce'), [ingredients]);
