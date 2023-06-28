@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './card.module.css';
-import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {ingredientPropType} from "../../utils/prop-types";
+import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ingredientPropType } from "../../utils/prop-types";
 import PropTypes from "prop-types";
 
 const Card = ( { card, onClick = () => {} } ) => {

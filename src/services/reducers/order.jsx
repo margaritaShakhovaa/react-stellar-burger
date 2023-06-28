@@ -29,8 +29,7 @@ export const orderReducer = (state = initialState, action) => {
         orderRequest: false
       };
     }
-    default: {
+    default:
       return state;
-    }
   }
 };

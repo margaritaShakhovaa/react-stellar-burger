@@ -30,8 +30,7 @@ export const ingredientsReducer = (state = initialState, action) => {
         ingredientsRequest: false
       };
     }
-    default: {
+    default:
       return state;
-    }
   }
 };

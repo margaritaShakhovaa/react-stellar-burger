@@ -3,10 +3,9 @@ import styles from "./burger-constructor.module.css";
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { getOrderNumberRequest } from "../../utils/burgers-api";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/ingredients";
-import {getOrder} from "../../services/actions/order";
+import { getOrder } from "../../services/actions/order";
 
 const priceInitialState = { totalPrice: 0 };
 
@@ -23,6 +22,7 @@ function reducer(state, action) {
 
 const BurgerConstructor = () => {
 
+  // Чтение ингредиентов из стора
   const ingredients = useSelector((store) => store.ingredients.ingredients);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -31,11 +31,10 @@ const BurgerConstructor = () => {
 
   // булочки
   const bun = React.useMemo(() => ingredients.find(item => item.type === 'bun'), [ingredients]);
-
   // остальные ингредиенты
   const fillings = React.useMemo(() => ingredients.filter(item => item.type !== 'bun'), [ingredients]);
 
-  // состояние модального окна
+  // Логика открытия/закрытия модального окна с деталями заказа
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
   const createOrder = () => {
@@ -46,7 +45,7 @@ const BurgerConstructor = () => {
 
   const [totalPriceState, dispatchTotalPrice] = React.useReducer(reducer, priceInitialState, undefined);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (ingredients) {
       const totalPrice = bun ? (bun.price * 2 + fillings.reduce((total, item) => total + item.price, 0)) : fillings.reduce((total, item) => total + item.price, 0);
       dispatchTotalPrice({type: 'add', payload: totalPrice});
