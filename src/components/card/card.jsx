@@ -6,9 +6,17 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 
-const Card = ( { card, onClick = () => {} } ) => {
+const Card = ( { card, onClick = () => {} }, type ) => {
 
-  const counter = useSelector(state => state.burgerConstructor.count);
+  const ingredients = useSelector((state) => {
+    return type === 'bun'
+        ? state.burgerConstructor.buns
+        : state.burgerConstructor.fillings
+  });
+
+  const counter = ingredients.filter(item =>
+      item._id === card._id
+  );
 
   const [, dragRef] = useDrag({
     type: "ingredient",
@@ -17,7 +25,7 @@ const Card = ( { card, onClick = () => {} } ) => {
 
   return (
         <li className={styles.card} onClick={() => onClick(card)} ref={dragRef}>
-          {/*{ !!count.length && <Counter count={count.length} size="default" extraClass={`m-1`} /> }*/}
+          { !!counter.length && <Counter count={counter.length} size="default" extraClass={`m-1`} /> }
           <img className={styles.img} src={card.image} alt={card.name}/>
           <div className={styles.price}>
             <p className={`text text_type_digits-default pb-1 pt-1`}>{card.price}</p>
@@ -31,6 +39,7 @@ const Card = ( { card, onClick = () => {} } ) => {
 Card.propTypes = {
   card: ingredientPropType.isRequired,
   onClick: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired
 };
 
 export default Card;

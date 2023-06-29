@@ -1,71 +1,48 @@
 import {
   ADD_INGREDIENT,
-  DECREASE_COUNT,
   DELETE_INGREDIENT,
-  INCREASE_COUNT,
   SORT_INGREDIENTS
 } from "../actions/burger-constructor";
 
 const initialState = {
   buns: null,
   fillings: [],
-  count: {}
 };
 
 export const burgerConstructorReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_INGREDIENT: {
-      if (action.ingredient.type === 'bun') {
+      if (action.payload.type === 'bun') {
         return {
-          buns: action.ingredient,
+          buns: action.payload,
           fillings: state.fillings
         };
       } else {
           return {
             ...state,
-          fillings: [...state.fillings, action.ingredient]
+          fillings: [...state.fillings, action.payload]
         };
       }
     }
     case DELETE_INGREDIENT: {
+      const index = state.fillings.indexOf(action.ingredient);
+      if (index > -1) {
+        state.fillings.splice(index, 1);
+      }
       return {
         ...state,
-        fillings: state.fillings.filter(filling => filling._id !== action.id)
+        fillings: [...state.fillings]
       };
     }
     case SORT_INGREDIENTS: {
-      const dragIngredient = state.fillings[action.dragIndex];
-      const hoverIngredient = state.fillings[action.hoverIndex];
-      state.fillings[action.dragIndex] = hoverIngredient;
-      state.fillings[action.hoverIndex] = dragIngredient;
-      return {
-        ...state
-      };
-    }
-
-    case INCREASE_COUNT: {
+      const main = [...state.fillings];
+      main.splice(action.toIndex, 0, main.splice(action.fromIndex, 1)[0]);
       return {
         ...state,
-        count: {
-          ...state.count,
-          [action._id]: state.count[action._id]
-              ? ++state.count[action._id]
-              : 1
-        }
-      };
-    }
-    case DECREASE_COUNT: {
-      return {
-        ...state,
-        count: {
-          ...state.count,
-          [action._id]: state.count[action._id]
-              ? --state.count[action._id]
-              : 1
-        }
+        fillings: [...main]
       };
     }
     default:
       return state;
   }
-}
+};
