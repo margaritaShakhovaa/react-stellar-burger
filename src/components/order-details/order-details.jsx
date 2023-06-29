@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 function OrderDetails() {
 
-  const orderNumber = useSelector((store) => store.order.order);
+  const orderNumber = useSelector(state => state.order.order);
 
   return (
       <div className={styles.container}>

@@ -6,7 +6,7 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/ingredients";
-import {addIngredientDetails, deleteIngredientDetails} from "../../services/actions/ingredient-details";
+import { addIngredientDetails, deleteIngredientDetails } from "../../services/actions/ingredient-details";
 import { useInView } from "react-intersection-observer";
 
 const BurgerIngredients = () => {
@@ -14,10 +14,10 @@ const BurgerIngredients = () => {
   const dispatch = useDispatch();
 
   // Чтение ингредиентов из стора
-  const ingredients = useSelector((store) => store.ingredients.ingredients);
+  const ingredients = useSelector(state => state.ingredients.ingredients);
 
   // Чтение деталей ингредиента из стора
-  const ingredientDetails = useSelector((store) => store.ingredientDetails.ingredientDetails);
+  const ingredientDetails = useSelector(state => state.ingredientDetails.ingredientDetails);
 
   const bun = React.useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
   const sauces = React.useMemo(() => ingredients.filter(item => item.type === 'sauce'), [ingredients]);
