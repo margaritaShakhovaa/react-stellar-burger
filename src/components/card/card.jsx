@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from './card.module.css';
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientPropType } from "../../utils/prop-types";
@@ -6,17 +6,20 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 
-const Card = ( { card, onClick = () => {} }, type ) => {
+const Card = ( { card, onClick = () => {} } ) => {
 
-  const ingredients = useSelector((state) => {
-    return type === 'bun'
-        ? state.burgerConstructor.buns
-        : state.burgerConstructor.fillings
-  });
+  const getIngredients = (store) => store.burgerConstructor;
+  const { buns, fillings }= useSelector(getIngredients);
 
-  const counter = ingredients.filter(item =>
-      item._id === card._id
-  );
+  const [counter, setCounter] = useState(0);
+
+  useEffect(() => {
+    if (buns && card.type === "bun" && card._id === buns._id) {
+      setCounter(1);
+    } else {
+      setCounter(fillings.filter(item => item._id === card._id).length);
+    }
+  }, [buns, fillings, card._id, card.type]);
 
   const [, dragRef] = useDrag({
     type: "ingredient",
@@ -25,7 +28,7 @@ const Card = ( { card, onClick = () => {} }, type ) => {
 
   return (
         <li className={styles.card} onClick={() => onClick(card)} ref={dragRef}>
-          { !!counter.length && <Counter count={counter.length} size="default" extraClass={`m-1`} /> }
+          { !!counter && <Counter count={counter} size="default" extraClass={`m-1`} /> }
           <img className={styles.img} src={card.image} alt={card.name}/>
           <div className={styles.price}>
             <p className={`text text_type_digits-default pb-1 pt-1`}>{card.price}</p>
@@ -38,8 +41,7 @@ const Card = ( { card, onClick = () => {} }, type ) => {
 
 Card.propTypes = {
   card: ingredientPropType.isRequired,
-  onClick: PropTypes.func.isRequired,
-  type: PropTypes.string.isRequired
+  onClick: PropTypes.func.isRequired
 };
 
 export default Card;

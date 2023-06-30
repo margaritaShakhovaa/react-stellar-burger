@@ -14,10 +14,12 @@ const BurgerIngredients = () => {
   const dispatch = useDispatch();
 
   // Чтение ингредиентов из стора
-  const ingredients = useSelector(store => store.ingredients.ingredients);
+  const getBurgerIngredients = (store) => store.ingredients.ingredients;
+  const ingredients = useSelector(getBurgerIngredients);
 
   // Чтение деталей ингредиента из стора
-  const ingredientDetails = useSelector(store => store.ingredientDetails.ingredientDetails);
+  const getIngredientDetails = (store) => store.ingredientDetails.ingredientDetails;
+  const ingredientDetails = useSelector(getIngredientDetails);
 
   const bun = React.useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
   const sauces = React.useMemo(() => ingredients.filter(item => item.type === 'sauce'), [ingredients]);
@@ -85,19 +87,19 @@ const BurgerIngredients = () => {
             <h3 className={`mb-6 text text_type_main-medium`} ref={bunRef}>Булки</h3>
             <ul className={`pr-2 pl-4 ${styles.card}`}>
               {bun.map((item) => (
-                  <Card card={item} key={item._id} onClick={openIngredientDetails} type={'bun'} />
+                  <Card card={item} key={item._id} onClick={openIngredientDetails} />
               ))}
             </ul>
             <h3 className={`mt-10 mb-6 text text_type_main-medium`} ref={saucesRef}>Соусы</h3>
             <ul className={`pr-2 pl-4 ${styles.card}`}>
               {sauces.map((item) => (
-                  <Card card={item} key={item._id} onClick={openIngredientDetails} type={'sauce'} />
+                  <Card card={item} key={item._id} onClick={openIngredientDetails} />
               ))}
             </ul>
             <h3 className={`mt-10 mb-6 text text_type_main-medium`} ref={mainRef}>Начинки</h3>
             <ul className={`pr-2 pl-4 ${styles.card}`}>
               {main.map((item) => (
-                  <Card card={item} key={item._id} onClick={openIngredientDetails} type={'main'} />
+                  <Card card={item} key={item._id} onClick={openIngredientDetails} />
               ))}
             </ul>
           </ul>

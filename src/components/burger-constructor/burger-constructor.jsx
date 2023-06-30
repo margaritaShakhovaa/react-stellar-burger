@@ -13,25 +13,33 @@ import { v4 as uuidv4 } from "uuid";
 
 const BurgerConstructor = () => {
 
-  // Чтение ингредиентов из стора
-  const ingredients = useSelector(store => store.ingredients.ingredients);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getIngredients())
   }, [dispatch]);
 
   // булочки
-  const buns = useSelector(store => store.burgerConstructor.buns);
+  const getBuns = (store) => store.burgerConstructor.buns;
+  const buns = useSelector(getBuns);
+
   // остальные ингредиенты
-  const fillings = useSelector(store => store.burgerConstructor.fillings);
+
+  const getFillings = (store) => store.burgerConstructor.fillings;
+  const fillings = useSelector(getFillings);
 
   // Логика открытия/закрытия модального окна с деталями заказа
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
   const createOrder = () => {
-    const ingredientsId = ingredients.map(item => item._id);
-    dispatch(getOrder(ingredientsId));
-    setModalIsOpen(true);
+    const ingredientsId = fillings.map(item => item._id);
+    if ( buns ) {
+      ingredientsId.push(buns._id);
+    }
+    if (ingredientsId.length > 0) {
+      // Отправка запроса
+      dispatch(getOrder(ingredientsId))
+      setModalIsOpen(true);
+    }
   };
 
   const [, dropRef] = useDrop({
