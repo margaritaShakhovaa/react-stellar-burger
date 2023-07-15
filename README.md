@@ -19,3 +19,6 @@ Stellar Burger - проект в рамках обучения в Яндекс �
 
 1. Flex-система
 2. React
+
+** Ссылка на проект **
+* [Stellar Burgers](https://margaritashakhovaa.github.io/react-stellar-burger/)
