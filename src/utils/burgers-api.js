@@ -1,7 +1,7 @@
 const apiIngredients = 'https://norma.nomoreparties.space/api/ingredients';
 const apiOrderNumber = 'https://norma.nomoreparties.space/api/orders';
 
-export const getIngredients = () => {
+export const getIngredientsRequest = () => {
   return fetch(apiIngredients)
       .then(res => {
         if (res.ok) {
@@ -11,7 +11,7 @@ export const getIngredients = () => {
       })
 }
 
-export const getOrderNumber = (ingredients) => {
+export const getOrderNumberRequest = (ingredients) => {
   return fetch((apiOrderNumber), {
         method: 'POST',
         headers: {

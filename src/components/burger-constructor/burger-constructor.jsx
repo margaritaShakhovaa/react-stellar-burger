@@ -1,116 +1,119 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./burger-constructor.module.css";
-import { ConstructorElement, DragIcon, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { Context } from "../../services/context";
-import { getOrderNumber } from "../../utils/burgers-api";
-
-const priceInitialState = { totalPrice: 0 };
-
-function reducer(state, action) {
-  switch (action.type) {
-    case "add":
-      return { totalPrice: state.totalPrice + action.payload };
-    case "reset":
-      return priceInitialState;
-    default:
-      throw new Error(`Wrong type of action: ${action.type}`);
-  }
-}
+import { useDispatch, useSelector } from "react-redux";
+import { getIngredients } from "../../services/actions/ingredients";
+import { getOrder } from "../../services/actions/order";
+import { useDrop } from "react-dnd";
+import { addIngredient } from "../../services/actions/burger-constructor";
+import MainIngredient from "../main-ingredient/main-ingredient";
+import { v4 as uuidv4 } from "uuid";
 
 const BurgerConstructor = () => {
 
-    const ingredients = React.useContext(Context);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getIngredients())
+  }, [dispatch]);
 
-    // булочки
-    const bun = React.useMemo(() => ingredients.find(item => item.type === 'bun'), [ingredients]);
+  // булочки
+  const getBuns = (store) => store.burgerConstructor.buns;
+  const buns = useSelector(getBuns);
 
-    // остальные ингредиенты
-    const fillings = React.useMemo(() => ingredients.filter(item => item.type !== 'bun'), [ingredients]);
+  // остальные ингредиенты
 
-    // состояние модального окна
-    const [modalIsOpen, setModalIsOpen] = React.useState(false);
+  const getFillings = (store) => store.burgerConstructor.fillings;
+  const fillings = useSelector(getFillings);
 
-    // номер заказа
-    const [orderNumber, setOrderNumber] = React.useState(0);
+  // Логика открытия/закрытия модального окна с деталями заказа
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
-    const createOrder = () => {
-      const ingredientsId = ingredients.map(item => item._id);
-      getOrderNumber(ingredientsId)
-          .then(res => {
-              setOrderNumber(res.order.number);
-              setModalIsOpen(true);
-            })
-          .catch(error => console.log(error));
-    };
+  const createOrder = () => {
+    const ingredientsId = fillings.map(item => item._id);
+    if ( buns ) {
+      ingredientsId.push(buns._id);
+    }
+    if (ingredientsId.length > 0) {
+      // Отправка запроса
+      dispatch(getOrder(ingredientsId))
+      setModalIsOpen(true);
+    }
+  };
 
-    const [totalPriceState, dispatchTotalPrice] = React.useReducer(reducer, priceInitialState, undefined);
+  const [, dropRef] = useDrop({
+    accept: 'ingredient',
+    drop(item) {
+      if (buns && buns._id === item._id) return;
+      const ingredient = Object.assign({}, item);
+      ingredient.uuid = uuidv4();
+      dispatch(addIngredient(ingredient));
+  }});
 
-    React.useEffect(() => {
-      if (ingredients) {
-        const totalPrice = bun ? (bun.price * 2 + fillings.reduce((total, item) => total + item.price, 0)) : fillings.reduce((total, item) => total + item.price, 0);
-        dispatchTotalPrice({type: 'add', payload: totalPrice});
-      }
-    }, [ingredients])
+  const totalPrice = React.useMemo(() => fillings.reduce(
+          (total, item) => (total += item.price),
+          buns ? buns.price * 2 : 0),
+      [buns, fillings]);
 
-    return (
-        <section className={styles.constructor_box}>
-            <div className={`mt-15 ${styles.constructor_container}`}>
-
-              {bun &&
-                  <ConstructorElement
-                      type="top"
-                      isLocked={true}
-                      text={`${bun.name} (верх)`}
-                      price={bun.price}
-                      thumbnail={bun.image}
-                      extraClass={`ml-4`}
-                  />
-              }
-
-              <ul className={`custom-scroll ${styles.constructor_list}`}>
-                {fillings.map((item) => {
-                  return (
-                      <li className={styles.constructor_card} key={item._id}>
-                        <DragIcon type="primary" />
-                        <ConstructorElement
-                            text={item.name}
-                            price={item.price}
-                            thumbnail={item.image}
-                        />
-                      </li>
-                  )}
-                )}
-              </ul>
-
-              {bun &&
-                  <ConstructorElement
-                      type="bottom"
-                      isLocked={true}
-                      text={`${bun.name} (низ)`}
-                      price={bun.price}
-                      thumbnail={bun.image}
-                      extraClass={`ml-4`}
-                  />
-              }
-
-            </div>
-          <div className={`mt-10 mr-4 ${styles.total}`}>
-            <div className={styles.price}>
-              <p className="text text_type_digits-medium">{totalPriceState.totalPrice}</p>
-              <CurrencyIcon type="primary" />
-            </div>
-            <Button htmlType="button" type="primary" size="large" onClick={createOrder}>
-              Оформить заказ
-            </Button>
+  return (
+      <section className={styles.constructor_box} ref={dropRef}>
+        <div className={`mt-15 ${styles.constructor_container}`}>
+          <div className={styles.info}>
+            {buns ? (
+                <ConstructorElement
+                    type="top"
+                    isLocked={true}
+                    text={`${buns.name} (верх)`}
+                    price={buns.price}
+                    thumbnail={buns.image}
+                    extraClass={`ml-4 mb-4`}
+                />
+            ) : null
+            }
           </div>
-          <Modal handleClose={() => setModalIsOpen(false)} isOpen={modalIsOpen} header={""}>
-            <OrderDetails orderNumber={orderNumber}></OrderDetails>
-          </Modal>
-        </section>
 
-    )
+          <ul className={`custom-scroll ${styles.constructor_list}`}>
+            {fillings.map((item, index) => {
+              return (
+                <MainIngredient
+                    key={item.uuid}
+                    index={index}
+                    item={item}
+                />
+              );
+            })}
+          </ul>
+
+          <div className={styles.info}>
+            {buns ? (
+                < ConstructorElement
+                    type="bottom"
+                    isLocked={true}
+                    text={`${buns.name} (низ)`}
+                    price={buns.price}
+                    thumbnail={buns.image}
+                    extraClass={`ml-4 mt-4`}
+              />
+              ) : null
+            }
+          </div>
+        </div>
+        <div className={`mt-10 mr-4 ${styles.total}`}>
+          <div className={styles.price}>
+            <p className="text text_type_digits-medium">{totalPrice ? totalPrice : 0}</p>
+            <CurrencyIcon type="primary" />
+          </div>
+          <Button htmlType="button" type="primary" size="large" onClick={createOrder}>
+            Оформить заказ
+          </Button>
+        </div>
+        <Modal handleClose={() => setModalIsOpen(false)} isOpen={modalIsOpen} header={""}>
+          <OrderDetails />
+        </Modal>
+      </section>
+
+  )
 }
 
 export default BurgerConstructor;
