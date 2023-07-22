@@ -7,15 +7,19 @@ export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const getIngredients = () => {
   return function(dispatch) {
     dispatch({ type: GET_INGREDIENTS_REQUEST });
-    getIngredientsRequest().then(res => {
-      if (res && res.success) {
-        dispatch({
-          type: GET_INGREDIENTS_SUCCESS,
-          ingredients: res.data
-        });
-      } else {
-        dispatch({ type: GET_INGREDIENTS_FAILED });
-      }
-    });
+    getIngredientsRequest()
+        .then(res => {
+          if (res.success) {
+            dispatch({
+              type: GET_INGREDIENTS_SUCCESS,
+              ingredients: res.data
+            });
+          } else {
+            dispatch({ type: GET_INGREDIENTS_FAILED });
+          }
+        })
+        .catch(() => {
+          dispatch({ type: GET_INGREDIENTS_FAILED });
+        })
   };
 }
