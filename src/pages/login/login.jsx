@@ -1,35 +1,51 @@
-import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
+import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useCallback, useState } from "react";
 import styles from './login.module.css'
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logIn } from "../../services/actions/user";
 
 
 export function LoginPage() {
 
-  // const [form, setValue] = useState({ email: '', password: '' })
-  //
-  // const onChange = e => {
-  //   setValue({ ...form, [e.target.name]: e.target.value });
-  // };
+  const dispatch = useDispatch();
+  const [form, setValue] = useState({
+    email: '',
+    password: ''
+  });
+
+  const onChange = e => {
+    setValue({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const login = useCallback(
+      e => {
+        e.preventDefault();
+        if (form.email !== '' && form.password !== '') {
+          dispatch(logIn(form));
+        }
+      },
+      [dispatch, form]
+  );
 
   return (
       <div className={`mt-30 ${styles.login}`}>
         <h2 className={`text text_type_main-medium ${styles.heading}`}>Вход</h2>
-        <form className={`mt-6 ${styles.form}`} action="">
+        <form className={`mt-6 ${styles.form}`} onSubmit={login}>
           <EmailInput
               placeholder={'E-mail'}
-              // onChange={onChange}
-              // value={form.email}
+              onChange={onChange}
+              value={form.email}
               name={'email'}
               isIcon={false}
           />
           <PasswordInput
-              // onChange={onChange}
-              // value={form.password}
+              onChange={onChange}
+              value={form.password}
               name={'password'}
               extraClass="mb-2"
           />
-          <Button htmlType="button" type="primary" size="medium">
+          <Button htmlType="submit" type="primary" size="medium">
             Войти
           </Button>
         </form>

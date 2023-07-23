@@ -1,4 +1,11 @@
+import {getCookie} from "./utils";
+
 const apiBurger = 'https://norma.nomoreparties.space/api';
+
+export const tokens = {
+  accessToken: 'accessToken',
+  refreshToken: 'refreshToken'
+};
 
 const checkResponse = (res) => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
@@ -84,7 +91,7 @@ export const refreshTokenRequest = () => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      token: localStorage.getItem('refreshToken')
+      token: localStorage.getItem(tokens.refreshToken)
     }),
   }).then(checkResponse);
 };
@@ -99,8 +106,8 @@ export const fetchWithRefresh = async (url, options) => {
       if (!refreshData.success) {
         return Promise.reject(refreshData);
       }
-      localStorage.setItem('refreshToken', refreshData.refreshToken);
-      localStorage.setItem('accessToken', refreshData.accessToken);
+      localStorage.setItem(tokens.refreshToken, refreshData.refreshToken);
+      localStorage.setItem(tokens.accessToken, refreshData.accessToken);
       options.headers.authorization = refreshData.accessToken;
       const res = await fetch(url, options); //повторяем запрос
       return await checkResponse(res);
@@ -115,7 +122,7 @@ export const getUserRequest = () => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: localStorage.getItem('accessToken')
+      Authorization: localStorage.getItem(tokens.accessToken)
     }
   })
       .then(checkResponse);
@@ -126,7 +133,7 @@ export const updateUserProfileRequest = (data) => {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: localStorage.getItem('accessToken')
+      Authorization: 'Bearer ' + getCookie('accessToken')
     },
     body: JSON.stringify({
       name: data.name,
@@ -138,11 +145,11 @@ export const updateUserProfileRequest = (data) => {
 };
 
 export const getOrderNumberRequest = (ingredients) => {
-  return fetchWithRefresh(`${apiBurger}/orders`, {
+  return fetchWithRefresh(`https://norma.nomoreparties.space/api/auth/user`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: localStorage.getItem('accessToken')
+      Authorization: localStorage.getItem(tokens.accessToken)
     },
     body: JSON.stringify({
       ingredients: ingredients

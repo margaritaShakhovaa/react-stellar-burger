@@ -3,7 +3,7 @@ import {
   getUserRequest,
   loginRequest,
   logoutRequest,
-  registerRequest, resetPasswordRequest,
+  registerRequest, resetPasswordRequest, tokens,
   updateUserProfileRequest
 } from "../../utils/burgers-api";
 
@@ -48,8 +48,8 @@ export function logIn(data) {
     loginRequest(data)
         .then(res => {
           if (res.success) {
-            localStorage.setItem('accessToken', res.accessToken);
-            localStorage.setItem('refreshToken', res.refreshToken);
+            localStorage.setItem(tokens.accessToken, res.accessToken);
+            localStorage.setItem(tokens.refreshToken, res.refreshToken);
             dispatch({
               type: LOGIN_SUCCESS,
               payload: res
@@ -70,8 +70,8 @@ export function logOut(data) {
     logoutRequest(data)
         .then(res => {
           if (res.success) {
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
+            localStorage.removeItem(tokens.accessToken);
+            localStorage.removeItem(tokens.refreshToken);
             dispatch({ type: LOGOUT_SUCCESS });
           } else {
             dispatch({ type: LOGOUT_FAILED });
@@ -89,8 +89,8 @@ export function registerUser(data) {
     registerRequest(data)
         .then(res => {
           if (res.success) {
-            localStorage.setItem('accessToken', res.accessToken);
-            localStorage.setItem('refreshToken', res.refreshToken);
+            localStorage.setItem(tokens.accessToken, res.accessToken);
+            localStorage.setItem(tokens.refreshToken, res.refreshToken);
             dispatch({
               type: REGISTER_SUCCESS,
               payload: res

@@ -6,13 +6,12 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { Route, Routes } from "react-router-dom";
 import { HomePage } from "../../pages/home/home";
 import { LoginPage } from "../../pages/login/login";
-import { RegisterPage } from "../../pages/register/register";
 import { ForgotPasswordPage } from "../../pages/forgot-password/forgot-password";
 import { ResetPasswordPage } from "../../pages/reset-password/reset-password";
 import { ProfilePage } from "../../pages/profile/profile";
 import { OnlyUnAuth, OnlyAuth} from "../protected-route/protected-route";
 import { NotFound404 } from "../../pages/not-found/not-found";
-
+import RegisterPage from "../../pages/register/register";
 
 function App() {
 
@@ -26,7 +25,7 @@ function App() {
             <Route path={"/register"} element={<OnlyUnAuth component={<RegisterPage />} />} />
             <Route path={"/forgot-password"} element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
             <Route path={"/reset-password"} element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
-            <Route path={"/profile"} element={<OnlyAuth component={<ProfilePage />} />} />
+            <Route path={"/profile"} element={<ProfilePage />} />
             <Route path={"/not-found"} element={<NotFound404 />} />
           </Routes>
         </div>

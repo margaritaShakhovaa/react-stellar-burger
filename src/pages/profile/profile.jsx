@@ -10,11 +10,10 @@ export function ProfilePage() {
   const dispatch = useDispatch();
   const getUser = (store) => store.user.user;
   const user = useSelector(getUser);
-  const { name, email } = user;
   const [form, setValue] = useState({
-    login: email,
+    email: user.email,
     password: '',
-    name: name
+    name: user.name
   });
 
   const onChange = e => {
@@ -24,15 +23,15 @@ export function ProfilePage() {
   const onResetUserData = (e) => {
     e.preventDefault();
     setValue({
-      name: name,
-      email: email,
+      name: user.name,
+      email: user.email,
       password: ''
     });
   };
 
   const onSubmitUserData = (e) => {
     e.preventDefault();
-    dispatch(updateUser(form));
+    dispatch(updateUser(form.email, form.name));
   }
 
   const [current, setCurrent] = useState('profile');

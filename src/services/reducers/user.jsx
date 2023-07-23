@@ -23,8 +23,10 @@ import {
 } from "../actions/user";
 
 const initialState = {
-  name: null,
-  email: null,
+  user: {
+    email: '',
+    name: ''
+  },
 
   getUserRequest: false,
   getUserFailed: false,
@@ -131,8 +133,8 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         registerRequest: false,
         registerFailed: false,
-        name: action.payload.user.name,
-        email: action.payload.user.email
+        email: action.payload.user.email,
+        name: action.payload.user.name
       };
     }
     case REGISTER_FAILED: {
