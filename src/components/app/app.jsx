@@ -11,6 +11,7 @@ import { ForgotPasswordPage } from "../../pages/forgot-password/forgot-password"
 import { ResetPasswordPage } from "../../pages/reset-password/reset-password";
 import { ProfilePage } from "../../pages/profile/profile";
 import { OnlyUnAuth, OnlyAuth} from "../protected-route/protected-route";
+import { NotFound404 } from "../../pages/not-found/not-found";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Route path={"/forgot-password"} element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
             <Route path={"/reset-password"} element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
             <Route path={"/profile"} element={<OnlyAuth component={<ProfilePage />} />} />
+            <Route path={"/not-found"} element={<NotFound404 />} />
           </Routes>
         </div>
       </DndProvider>

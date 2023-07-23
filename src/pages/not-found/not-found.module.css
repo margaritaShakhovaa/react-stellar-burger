@@ -1,0 +1,23 @@
+.wrapper {
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: bottom;
+    background-position-x: -25vw;
+    background-repeat: no-repeat;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: max-content;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 50px;
+}
+
+.link {
+    text-decoration: none;
+    color: #8585AD;
+}

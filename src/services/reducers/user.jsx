@@ -23,8 +23,8 @@ import {
 } from "../actions/user";
 
 const initialState = {
-  name: '',
-  email: '',
+  name: null,
+  email: null,
 
   getUserRequest: false,
   getUserFailed: false,
@@ -68,8 +68,8 @@ export const userReducer = (state = initialState, action) => {
     case GET_USER_FAILED: {
       return {
         ...state,
-        name: '',
-        email: '',
+        name: null,
+        email: null,
         getUserRequest: false,
         getUserFailed: true
       };
@@ -92,8 +92,8 @@ export const userReducer = (state = initialState, action) => {
     case LOGIN_FAILED: {
       return {
         ...state,
-        name: '',
-        email: '',
+        name: null,
+        email: null,
         loginRequest: false,
         loginFailed: true
       };
@@ -109,8 +109,8 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         logoutRequest: false,
         logoutFailed: false,
-        name: '',
-        email: ''
+        name: null,
+        email: null
       };
     }
     case LOGOUT_FAILED: {
@@ -205,6 +205,9 @@ export const userReducer = (state = initialState, action) => {
         resetPasswordRequest: false,
         resetPasswordFailed: true
       };
+    }
+    default: {
+      return state
     }
   }
 }

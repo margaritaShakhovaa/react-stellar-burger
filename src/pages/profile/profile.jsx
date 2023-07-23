@@ -1,9 +1,39 @@
 import styles from './profile.module.css';
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import {Button, EmailInput, Input} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, EmailInput, Input } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../../services/actions/user";
 
 export function ProfilePage() {
+
+  const dispatch = useDispatch();
+  const getUser = (store) => store.user.user;
+  const user = useSelector(getUser);
+  const { name, email } = user;
+  const [form, setValue] = useState({
+    login: email,
+    password: '',
+    name: name
+  });
+
+  const onChange = e => {
+    setValue({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const onResetUserData = (e) => {
+    e.preventDefault();
+    setValue({
+      name: name,
+      email: email,
+      password: ''
+    });
+  };
+
+  const onSubmitUserData = (e) => {
+    e.preventDefault();
+    dispatch(updateUser(form));
+  }
 
   const [current, setCurrent] = useState('profile');
 
@@ -35,44 +65,39 @@ export function ProfilePage() {
             <Input
                 type={'text'}
                 placeholder={'Имя'}
-                // onChange={onChange}
-                // onBlur={onBlurName}
+                onChange={onChange}
                 icon={'EditIcon'}
-                // value={form.name}
+                value={form.name}
                 name={'name'}
-                // error={errorName}
-                // ref={inputRef}
-                // onIconClick={onIconClick}
+                error={false}
                 errorText={'Ошибка'}
                 size={'default'}
                 extraClass="ml-1"
             />
             <EmailInput
                 placeholder={'Логин'}
-                // onChange={onChange}
-                // value={form.email}
+                onChange={onChange}
+                value={form.email}
                 name="email"
                 icon="EditIcon"
             />
             <Input
                 type={'password'}
                 placeholder={'Пароль'}
-                // onChange={onChange}
+                onChange={onChange}
                 icon={'EditIcon'}
-                // value={form.password ||  ''}
+                value={form.password}
                 name='password'
                 error={false}
-                // ref={inputRef}
-                // onIconClick={onIconClick}
                 errorText={'Ошибка'}
                 size={'default'}
                 extraClass="ml-1"
             />
             <div className={styles.buttons}>
-              <Button htmlType="button" type="secondary" size="large">
+              <Button htmlType="reset" type="secondary" size="large"  onClick={onResetUserData}>
                 Отмена
               </Button>
-              <Button htmlType="submit" type="primary" size="medium">
+              <Button htmlType="submit" type="primary" size="medium" onClick={onSubmitUserData}>
                 Сохранить
               </Button>
             </div>
