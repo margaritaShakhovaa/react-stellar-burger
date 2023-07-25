@@ -1,14 +1,15 @@
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useCallback, useState } from "react";
 import styles from './login.module.css'
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import {Link, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 import { logIn } from "../../services/actions/user";
-
 
 export function LoginPage() {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [form, setValue] = useState({
     email: '',
     password: ''
@@ -23,6 +24,7 @@ export function LoginPage() {
         e.preventDefault();
         if (form.email !== '' && form.password !== '') {
           dispatch(logIn(form));
+          navigate('/');
         }
       },
       [dispatch, form]
@@ -37,13 +39,12 @@ export function LoginPage() {
               onChange={onChange}
               value={form.email}
               name={'email'}
-              isIcon={false}
           />
           <PasswordInput
+              placeholder={'Пароль'}
               onChange={onChange}
               value={form.password}
               name={'password'}
-              extraClass="mb-2"
           />
           <Button htmlType="submit" type="primary" size="medium">
             Войти

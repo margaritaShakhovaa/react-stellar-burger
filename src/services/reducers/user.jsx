@@ -23,10 +23,8 @@ import {
 } from "../actions/user";
 
 const initialState = {
-  user: {
-    email: '',
-    name: ''
-  },
+  user: null,
+  authorized: false,
 
   getUserRequest: false,
   getUserFailed: false,
@@ -44,9 +42,11 @@ const initialState = {
   updateUserFailed: false,
 
   forgotPasswordRequest: false,
+  forgotPasswordSuccess: false,
   forgotPasswordFailed: false,
 
   resetPasswordRequest: false,
+  resetPasswordSuccess: false,
   resetPasswordFailed: false
 }
 
@@ -63,15 +63,14 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         getUserRequest: false,
         getUserFailed: false,
-        name: action.payload.user.name,
-        email: action.payload.user.email
+        user: action.user,
+        authorized: true
       };
     }
     case GET_USER_FAILED: {
       return {
         ...state,
-        name: null,
-        email: null,
+        user: null,
         getUserRequest: false,
         getUserFailed: true
       };
@@ -87,15 +86,14 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         loginRequest: false,
         loginFailed: false,
-        name: action.payload.user.name,
-        email: action.payload.user.email
+        user: action.data,
+        authorized: true
       };
     }
     case LOGIN_FAILED: {
       return {
         ...state,
-        name: null,
-        email: null,
+        user: null,
         loginRequest: false,
         loginFailed: true
       };
@@ -111,8 +109,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         logoutRequest: false,
         logoutFailed: false,
-        name: null,
-        email: null
+        user: null
       };
     }
     case LOGOUT_FAILED: {
@@ -133,8 +130,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         registerRequest: false,
         registerFailed: false,
-        email: action.payload.user.email,
-        name: action.payload.user.name
+        user: action.data.user
       };
     }
     case REGISTER_FAILED: {
@@ -142,8 +138,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         registerRequest: false,
         registerFailed: true,
-        name: '',
-        email: ''
+        user: null
       };
     }
     case UPDATE_USER_REQUEST: {
@@ -157,8 +152,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         updateUserRequest: false,
         updateUserFailed: false,
-        name: action.payload.user.name,
-        email: action.payload.user.email
+        user: action.data
       };
     }
     case UPDATE_USER_FAILED: {
@@ -177,8 +171,8 @@ export const userReducer = (state = initialState, action) => {
     case FORGOT_PASSWORD_SUCCESS: {
       return {
         ...state,
-        forgotPasswordRequest: false,
-        forgotPasswordFailed: false
+        forgotPasswordSuccess: true,
+        forgotPasswordRequest: false
       };
     }
     case FORGOT_PASSWORD_FAILED: {
@@ -198,7 +192,7 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         resetPasswordRequest: false,
-        resetPasswordFailed: false
+        resetPasswordSuccess: true
       };
     }
     case RESET_PASSWORD_FAILED: {

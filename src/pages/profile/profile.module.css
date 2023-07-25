@@ -24,6 +24,10 @@
     transition: all .3s linear;
 }
 
+.link:hover {
+    color: #F2F2F3
+}
+
 .current_link {
     color: #F2F2F3;
 }

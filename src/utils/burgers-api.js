@@ -1,11 +1,4 @@
-import {getCookie} from "./utils";
-
 const apiBurger = 'https://norma.nomoreparties.space/api';
-
-export const tokens = {
-  accessToken: 'accessToken',
-  refreshToken: 'refreshToken'
-};
 
 const checkResponse = (res) => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
@@ -84,14 +77,14 @@ export const resetPasswordRequest = (data) => {
       .then(checkResponse);
 };
 
-export const refreshTokenRequest = () => {
+export const refreshToken = () => {
   return fetch(`${apiBurger}/auth/token`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json;charset=utf-8',
     },
     body: JSON.stringify({
-      token: localStorage.getItem(tokens.refreshToken)
+      token: localStorage.getItem('refreshToken')
     }),
   }).then(checkResponse);
 };
@@ -102,12 +95,12 @@ export const fetchWithRefresh = async (url, options) => {
     return await checkResponse(res);
   } catch (err) {
     if (err.message === 'jwt expired') {
-      const refreshData = await refreshTokenRequest(); //обновляем токен
+      const refreshData = await refreshToken(); //обновляем токен
       if (!refreshData.success) {
         return Promise.reject(refreshData);
       }
-      localStorage.setItem(tokens.refreshToken, refreshData.refreshToken);
-      localStorage.setItem(tokens.accessToken, refreshData.accessToken);
+      localStorage.setItem('refreshToken', refreshData.refreshToken);
+      localStorage.setItem('accessToken', refreshData.accessToken);
       options.headers.authorization = refreshData.accessToken;
       const res = await fetch(url, options); //повторяем запрос
       return await checkResponse(res);
@@ -122,18 +115,18 @@ export const getUserRequest = () => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: localStorage.getItem(tokens.accessToken)
+      Authorization: localStorage.getItem('accessToken')
     }
   })
       .then(checkResponse);
 };
 
 export const updateUserProfileRequest = (data) => {
-  return fetchWithRefresh(`${apiBurger}/auth/user`, {
+  return fetch(`${apiBurger}/auth/user`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + getCookie('accessToken')
+      Authorization: localStorage.getItem('accessToken')
     },
     body: JSON.stringify({
       name: data.name,
@@ -145,11 +138,11 @@ export const updateUserProfileRequest = (data) => {
 };
 
 export const getOrderNumberRequest = (ingredients) => {
-  return fetchWithRefresh(`https://norma.nomoreparties.space/api/auth/user`, {
+  return fetchWithRefresh(`${apiBurger}/orders`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: localStorage.getItem(tokens.accessToken)
+      Authorization: localStorage.getItem('accessToken')
     },
     body: JSON.stringify({
       ingredients: ingredients

@@ -5,13 +5,13 @@ import { useDispatch } from "react-redux";
 import { useCallback, useState } from "react";
 import { registerUser } from "../../services/actions/user";
 
-function RegisterPage() {
+export function RegisterPage() {
 
   const dispatch = useDispatch();
   const [form, setValue] = useState({
-    name: '',
     email: '',
-    password: ''
+    password: '',
+    name: ''
   });
 
   const onChange = e => {
@@ -21,7 +21,7 @@ function RegisterPage() {
   const register = useCallback(
       evt => {
         evt.preventDefault();
-        if (form.email !== '' && form.password !== '' && form.name !== '') {
+        if (form.email !== '' && form.password !== '' &&  form.name !== '') {
           dispatch(registerUser(form));
         }
       }, [dispatch, form]
@@ -37,24 +37,19 @@ function RegisterPage() {
             onChange={onChange}
             value={form.name}
             name={'name'}
-            error={false}
-            errorText={'Ошибка'}
             size={'default'}
-            extraClass="ml-1"
         />
         <EmailInput
             placeholder={'E-mail'}
             onChange={onChange}
             value={form.email}
             name={'email'}
-            error={false}
         />
         <PasswordInput
             placeholder={'Пароль'}
             onChange={onChange}
             value={form.password}
             name={'password'}
-            extraClass="mb-2"
         />
         <Button htmlType="submit" type="primary" size="medium">
           Зарегистрироваться
@@ -66,5 +61,3 @@ function RegisterPage() {
     </div>
   )
 }
-
-export default RegisterPage;

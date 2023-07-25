@@ -1,9 +1,9 @@
 import styles from './profile.module.css';
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { Button, EmailInput, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../../services/actions/user";
+import { logOut, updateUser } from "../../services/actions/user";
 
 export function ProfilePage() {
 
@@ -16,7 +16,7 @@ export function ProfilePage() {
     name: user.name
   });
 
-  const onChange = e => {
+  const onChange = (e) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -29,38 +29,45 @@ export function ProfilePage() {
     });
   };
 
-  const onSubmitUserData = (e) => {
+  const onUpdateUser = (e) => {
     e.preventDefault();
-    dispatch(updateUser(form.email, form.name));
+    dispatch(updateUser(form));
   }
 
-  const [current, setCurrent] = useState('profile');
+  const onLogout = () => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    dispatch(logOut(refreshToken));
+  }
 
   return (
       <div className={styles.container}>
         <div className={`mt-30 ${styles.profile}`}>
           <div className={styles.links}>
-            <Link
+            <NavLink
                 to='/profile'
-                className={`${styles.link} ${current === 'profile' ? styles.current_link : ''}`}
-                onClick={() => setCurrent('profile')}>
+                className={(current) => current.isActive
+                    ? `${styles.link} ${styles.current_link}`
+                    : `${styles.link}`} >
               <p className='text text_type_main-medium'>Профиль</p>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
                 to='/profile/orders'
-                className={`${styles.link} ${current === 'orders' ? styles.current_link : ''}`}
-                onClick={() => setCurrent('orders')}>
+                className={(current) => current.isActive
+                    ? `${styles.link} ${styles.current_link}`
+                    : `${styles.link}`} >
               <p className='text text_type_main-medium'>История заказов</p>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
                 to='/login'
-                className={`${styles.link} ${current === 'exit' ? styles.current_link : ''}`}
-                onClick={() => setCurrent('exit')}>
+                className={(current) => current.isActive
+                    ? `${styles.link} ${styles.current_link}`
+                    : `${styles.link}`}
+                onClick={onLogout}>
               <p className='text text_type_main-medium'>Выход</p>
-            </Link>
+            </NavLink>
             <p className={`pt-20 text text_type_main-default text_color_inactive ${styles.text}`}>В этом разделе вы можете просмотреть свою историю заказов</p>
           </div>
-          <form className={styles.form}>
+          <form className={styles.form} onSubmit={onUpdateUser}>
             <Input
                 type={'text'}
                 placeholder={'Имя'}
@@ -71,7 +78,6 @@ export function ProfilePage() {
                 error={false}
                 errorText={'Ошибка'}
                 size={'default'}
-                extraClass="ml-1"
             />
             <EmailInput
                 placeholder={'Логин'}
@@ -90,13 +96,12 @@ export function ProfilePage() {
                 error={false}
                 errorText={'Ошибка'}
                 size={'default'}
-                extraClass="ml-1"
             />
             <div className={styles.buttons}>
               <Button htmlType="reset" type="secondary" size="large"  onClick={onResetUserData}>
                 Отмена
               </Button>
-              <Button htmlType="submit" type="primary" size="medium" onClick={onSubmitUserData}>
+              <Button htmlType="submit" type="primary" size="medium">
                 Сохранить
               </Button>
             </div>

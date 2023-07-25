@@ -6,7 +6,7 @@ import styles from './home.module.css';
 export function HomePage() {
 
   return (
-      <main className={`mt-10 mb-10 ${styles.main}`}>
+      <main className={styles.main}>
         <BurgerIngredients />
         <BurgerConstructor />
       </main>

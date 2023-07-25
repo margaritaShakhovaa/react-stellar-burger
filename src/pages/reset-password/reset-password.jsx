@@ -1,35 +1,62 @@
 import styles from "./reset-password.module.css";
-import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import {Link, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {useCallback, useEffect, useState} from "react";
+import {forgotPassword} from "../../services/actions/user";
 
 
 export function ResetPasswordPage() {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [form, setValue] = useState({
+    password: '',
+    token: ''
+  });
+  const getResetRequest = (store) => store.user.resetPasswordSuccess;
+  const resetRequest = useSelector(getResetRequest);
+
+  useEffect(() => {
+    if (resetRequest) {
+      navigate('/login');
+    }
+  }, [navigate, resetRequest]);
+
+  const onChange = e => {
+    setValue({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const onChangePassword = useCallback(
+      e => {
+        e.preventDefault();
+        if (form.password !== '' && form.token !== '') {
+          dispatch(forgotPassword(form));
+        }
+      }, [form, dispatch]
+  );
+
   return (
       <div className={`mt-30 ${styles.reset_password}`}>
         <h2 className={`text text_type_main-medium ${styles.heading}`}>Восстановление пароля</h2>
-        <form className={`mt-6 ${styles.form}`} action="">
+        <form className={`mt-6 ${styles.form}`} onSubmit={onChangePassword}>
           <PasswordInput
-              // value={form.password || ''}
+              value={form.password}
               name={'password'}
-              extraClass="mb-2"
               placeholder={'Введите новый пароль'}
-              // onChange={onChange}
+              onChange={onChange}
           />
           <Input
               type={'text'}
               placeholder={'Введите код из письма'}
-              // onChange={onChange}
-              icon={undefined}
-              // value={form.token || ''}
-              // name={'token'}
+              onChange={onChange}
+              value={form.token}
+              name={'token'}
               error={false}
-              // ref={inputRef}
-              // onIconClick={onIconClick}
               errorText={'Ошибка'}
               size={'default'}
-              extraClass="ml-1"
           />
-          <Button htmlType="button" type="primary" size="medium">
+          <Button htmlType="submit" type="primary" size="medium">
             Сохранить
           </Button>
         </form>

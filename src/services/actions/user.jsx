@@ -3,7 +3,8 @@ import {
   getUserRequest,
   loginRequest,
   logoutRequest,
-  registerRequest, resetPasswordRequest, tokens,
+  registerRequest,
+  resetPasswordRequest,
   updateUserProfileRequest
 } from "../../utils/burgers-api";
 
@@ -47,12 +48,12 @@ export function logIn(data) {
     dispatch({ type: LOGIN_REQUEST });
     loginRequest(data)
         .then(res => {
-          if (res.success) {
-            localStorage.setItem(tokens.accessToken, res.accessToken);
-            localStorage.setItem(tokens.refreshToken, res.refreshToken);
+          if (res && res.success) {
+            localStorage.setItem('accessToken', res.accessToken);
+            localStorage.setItem('refreshToken', res.refreshToken);
             dispatch({
               type: LOGIN_SUCCESS,
-              payload: res
+              data: res.user
             });
         } else {
             dispatch({ type: LOGIN_FAILED });
@@ -69,9 +70,9 @@ export function logOut(data) {
     dispatch({ type: LOGOUT_REQUEST });
     logoutRequest(data)
         .then(res => {
-          if (res.success) {
-            localStorage.removeItem(tokens.accessToken);
-            localStorage.removeItem(tokens.refreshToken);
+          if (res && res.success) {
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
             dispatch({ type: LOGOUT_SUCCESS });
           } else {
             dispatch({ type: LOGOUT_FAILED });
@@ -88,12 +89,12 @@ export function registerUser(data) {
     dispatch({ type: REGISTER_REQUEST });
     registerRequest(data)
         .then(res => {
-          if (res.success) {
-            localStorage.setItem(tokens.accessToken, res.accessToken);
-            localStorage.setItem(tokens.refreshToken, res.refreshToken);
+          if (res && res.success) {
+            localStorage.setItem('accessToken', res.accessToken);
+            localStorage.setItem('refreshToken', res.refreshToken);
             dispatch({
               type: REGISTER_SUCCESS,
-              payload: res
+              data: res
             });
           } else {
             dispatch({ type: REGISTER_FAILED });
@@ -110,10 +111,10 @@ export function getUser() {
     dispatch({ type: GET_USER_REQUEST });
     getUserRequest()
         .then(res => {
-          if (res.success) {
+          if (res && res.success) {
             dispatch({
               type: GET_USER_SUCCESS,
-              payload: res
+              data: res.user
             });
           } else {
             dispatch({ type: GET_USER_FAILED });
@@ -130,10 +131,10 @@ export function updateUser(data) {
     dispatch({ type: UPDATE_USER_REQUEST });
     updateUserProfileRequest(data)
         .then(res => {
-          if (res.success) {
+          if (res && res.success) {
             dispatch({
               type: UPDATE_USER_SUCCESS,
-              payload: res
+              data: res.user
             });
           } else {
             dispatch({ type: UPDATE_USER_FAILED });
@@ -145,12 +146,12 @@ export function updateUser(data) {
   };
 }
 
-export function forgotPassword(data) {
+export function forgotPassword(email) {
   return function(dispatch) {
     dispatch({ type: FORGOT_PASSWORD_REQUEST });
-    forgotPasswordRequest(data)
+    forgotPasswordRequest(email)
         .then(res => {
-          if (res.success) {
+          if (res && res.success) {
             dispatch({ type: FORGOT_PASSWORD_SUCCESS });
           } else {
             dispatch({ type: FORGOT_PASSWORD_FAILED });
@@ -162,12 +163,12 @@ export function forgotPassword(data) {
   };
 }
 
-export function resetPassword(data) {
+export function resetPassword(password) {
   return function(dispatch) {
     dispatch({ type: RESET_PASSWORD_REQUEST });
-    resetPasswordRequest(data)
+    resetPasswordRequest(password)
         .then(res => {
-          if (res.success) {
+          if (res && res.success) {
             dispatch({ type: RESET_PASSWORD_SUCCESS });
           } else {
             dispatch({ type: RESET_PASSWORD_FAILED });
