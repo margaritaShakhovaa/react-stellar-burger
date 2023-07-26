@@ -42,3 +42,13 @@
     align-items: center;
     gap: 24px;
 }
+
+.buttons {
+    display: none;
+}
+
+.buttons_active {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}

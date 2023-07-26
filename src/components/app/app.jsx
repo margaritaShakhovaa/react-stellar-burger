@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import { DndProvider } from "react-dnd";
@@ -15,11 +15,19 @@ import { RegisterPage } from "../../pages/register/register";
 import Modal from "../modal/modal";
 import { Ingredient } from "../../pages/ingredient/ingredient";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import {useDispatch} from "react-redux";
+import { getUser } from "../../services/actions/user";
+
 
 function App() {
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const background = location.state && location.state.background;
+
+  useEffect(() => {
+    dispatch(getUser())
+  }, []);
 
   const handleModalClose = () => {
     // Возвращаемся к предыдущему пути при закрытии модалки

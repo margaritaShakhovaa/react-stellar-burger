@@ -1,5 +1,5 @@
 import styles from './profile.module.css';
-import { NavLink } from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import { useState } from "react";
 import { Button, EmailInput, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -97,7 +97,10 @@ export function ProfilePage() {
                 errorText={'Ошибка'}
                 size={'default'}
             />
-            <div className={styles.buttons}>
+            <div className={form.name === user.name && form.email === user.email && form.password === ''
+                ? `${styles.buttons}`
+                :
+                `${styles.buttons_active} mt-6`}>
               <Button htmlType="reset" type="secondary" size="large"  onClick={onResetUserData}>
                 Отмена
               </Button>

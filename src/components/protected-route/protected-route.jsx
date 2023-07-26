@@ -27,7 +27,6 @@ const Protected = ({ onlyUnAuth = false, component }) => {
   if (!onlyUnAuth && !user) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
-
   // !onlyUnAuth && user Пользователь авторизован и роут для авторизованного пользователя
 
   return component;
