@@ -72,7 +72,8 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         user: null,
         getUserRequest: false,
-        getUserFailed: true
+        getUserFailed: true,
+        authorized: false
       };
     }
     case LOGIN_REQUEST: {
@@ -96,7 +97,6 @@ export const userReducer = (state = initialState, action) => {
         user: null,
         loginRequest: false,
         loginFailed: true,
-        authorized: false
       };
     }
     case LOGOUT_REQUEST: {
@@ -132,7 +132,8 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         registerRequest: false,
         registerFailed: false,
-        user: action.data.user
+        user: action.data.user,
+        authorized: true
       };
     }
     case REGISTER_FAILED: {

@@ -8,14 +8,14 @@ import { registerUser } from "../../services/actions/user";
 export function RegisterPage() {
 
   const dispatch = useDispatch();
-  const [form, setValue] = useState({
+  const [form, setForm] = useState({
     email: '',
     password: '',
     name: ''
   });
 
   const onChange = e => {
-    setValue({ ...form, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const register = useCallback(

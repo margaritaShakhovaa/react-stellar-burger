@@ -1,5 +1,5 @@
 import styles from './profile.module.css';
-import {NavLink, useNavigate} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { Button, EmailInput, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,19 +10,19 @@ export function ProfilePage() {
   const dispatch = useDispatch();
   const getUser = (store) => store.user.user;
   const user = useSelector(getUser);
-  const [form, setValue] = useState({
+  const [form, setForm] = useState({
     email: user.email,
     password: '',
     name: user.name
   });
 
   const onChange = (e) => {
-    setValue({ ...form, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const onResetUserData = (e) => {
     e.preventDefault();
-    setValue({
+    setForm({
       name: user.name,
       email: user.email,
       password: ''
@@ -35,8 +35,7 @@ export function ProfilePage() {
   }
 
   const onLogout = () => {
-    const refreshToken = localStorage.getItem('refreshToken');
-    dispatch(logOut(refreshToken));
+    dispatch(logOut(localStorage.getItem('refreshToken')));
   }
 
   return (

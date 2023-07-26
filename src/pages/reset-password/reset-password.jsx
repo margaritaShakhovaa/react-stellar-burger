@@ -1,16 +1,16 @@
 import styles from "./reset-password.module.css";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {useCallback, useEffect, useState} from "react";
-import {forgotPassword} from "../../services/actions/user";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useEffect, useState } from "react";
+import { resetPassword} from "../../services/actions/user";
 
 
 export function ResetPasswordPage() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [form, setValue] = useState({
+  const [form, setForm] = useState({
     password: '',
     token: ''
   });
@@ -24,14 +24,14 @@ export function ResetPasswordPage() {
   }, [navigate, resetRequest]);
 
   const onChange = e => {
-    setValue({ ...form, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const onChangePassword = useCallback(
       e => {
         e.preventDefault();
         if (form.password !== '' && form.token !== '') {
-          dispatch(forgotPassword(form));
+          dispatch(resetPassword(form));
         }
       }, [form, dispatch]
   );

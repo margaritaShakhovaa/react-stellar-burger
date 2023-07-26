@@ -7,9 +7,7 @@ import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById('modals');
 
-function Modal(props) {
-
-  const { handleClose } = props;
+function Modal({ handleClose, children, header }) {
 
   useEffect(() => {
     const closeOnEscapeKey = e => e.key === "Escape" ? handleClose() : null;
@@ -26,12 +24,12 @@ function Modal(props) {
           <div className={styles.modal}>
             <div className={styles.container}>
               <div className={styles.header}>
-                <p className={'text text_type_main-large'}>{props.header}</p>
+                <p className={'text text_type_main-large'}>{header}</p>
                 <button className={styles.close_button}>
                   <CloseIcon type="primary" onClick={handleClose}/>
                 </button>
               </div>
-              {props.children}
+              {children}
             </div>
             <ModalOverlay onClose={handleClose} />
           </div>

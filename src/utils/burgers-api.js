@@ -51,7 +51,7 @@ export const registerRequest = (data) => {
 };
 
 export const forgotPasswordRequest = (data) => {
-  return fetch(`${apiBurger}/auth/password-reset`, {
+  return fetch(`${apiBurger}/password-reset`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ export const forgotPasswordRequest = (data) => {
 };
 
 export const resetPasswordRequest = (data) => {
-  return fetch(`${apiBurger}/auth/password-reset/reset`, {
+  return fetch(`${apiBurger}/password-reset/reset`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -142,6 +142,7 @@ export const getOrderNumberRequest = (ingredients) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: localStorage.getItem('accessToken')
     },
     body: JSON.stringify({
       ingredients: ingredients

@@ -9,7 +9,7 @@ export function ForgotPasswordPage() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [form, setValue] = useState({
+  const [form, setForm] = useState({
     email: ''
   });
   const getForgotRequest = (store) => store.user.forgotPasswordSuccess;
@@ -22,7 +22,7 @@ export function ForgotPasswordPage() {
   }, [navigate, forgotRequest]);
 
   const onChange = e => {
-    setValue({ ...form, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const onConfirmEmail = useCallback(
