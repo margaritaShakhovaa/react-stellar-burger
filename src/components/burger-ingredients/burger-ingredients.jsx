@@ -2,11 +2,8 @@ import React, {useEffect} from "react";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Card from '../card/card';
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/ingredients";
-import { addIngredientDetails, deleteIngredientDetails } from "../../services/actions/ingredient-details";
 import { useInView } from "react-intersection-observer";
 
 const BurgerIngredients = () => {
@@ -16,10 +13,6 @@ const BurgerIngredients = () => {
   // Чтение ингредиентов из стора
   const getBurgerIngredients = (store) => store.ingredients.ingredients;
   const ingredients = useSelector(getBurgerIngredients);
-
-  // // Чтение деталей ингредиента из стора
-  // const getIngredientDetails = (store) => store.ingredientDetails.ingredientDetails;
-  // const ingredientDetails = useSelector(getIngredientDetails);
 
   const bun = React.useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
   const sauces = React.useMemo(() => ingredients.filter(item => item.type === 'sauce'), [ingredients]);
@@ -46,18 +39,6 @@ const BurgerIngredients = () => {
     setCurrent(tab);
     entry.target.scrollIntoView({ behavior: 'smooth' });
   }
-
-  // // Логика открытия/закрытия модального окна с деталями ингредиента
-  // const [modalIsOpen, setModalIsOpen] = React.useState(false);
-
-  // const openIngredientDetails = (card) => {
-  //   dispatch(addIngredientDetails(card));
-  //   setModalIsOpen(true);
-  // };
-  //
-  // const closeIngredientsDetail = () => {
-  //   dispatch(deleteIngredientDetails());
-  // };
 
   return (
         <section className={styles.ingredients_box}>
@@ -93,7 +74,7 @@ const BurgerIngredients = () => {
             <h3 className={`mt-10 mb-6 text text_type_main-medium`} ref={saucesRef}>Соусы</h3>
             <ul className={`pr-2 pl-4 ${styles.card}`}>
               {sauces.map((item) => (
-                  <Card card={item} key={item._id} />
+                  <Card card={item} key={item._id}/>
               ))}
             </ul>
             <h3 className={`mt-10 mb-6 text text_type_main-medium`} ref={mainRef}>Начинки</h3>

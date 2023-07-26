@@ -10,10 +10,13 @@ import { useDrop } from "react-dnd";
 import { addIngredient } from "../../services/actions/burger-constructor";
 import MainIngredient from "../main-ingredient/main-ingredient";
 import { v4 as uuidv4 } from "uuid";
+import {useNavigate} from "react-router-dom";
 
 const BurgerConstructor = () => {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
     dispatch(getIngredients())
   }, [dispatch]);
@@ -23,7 +26,6 @@ const BurgerConstructor = () => {
   const buns = useSelector(getBuns);
 
   // остальные ингредиенты
-
   const getFillings = (store) => store.burgerConstructor.fillings;
   const fillings = useSelector(getFillings);
 
@@ -34,6 +36,14 @@ const BurgerConstructor = () => {
   const getAuthorized = (store) => store.user.authorized;
   const authorized = useSelector(getAuthorized);
 
+  const openModal = () => {
+    if (!authorized) {
+      navigate('/login');
+    }
+    createOrder();
+    setModalIsOpen(true);
+  };
+
   const createOrder = () => {
     const ingredientsId = fillings.map(item => item._id);
     if ( buns ) {
@@ -42,9 +52,12 @@ const BurgerConstructor = () => {
     if (ingredientsId.length > 0) {
       // Отправка запроса
       dispatch(getOrder(ingredientsId))
-      setModalIsOpen(true);
     }
   };
+
+  const closeModal =() => {
+    setModalIsOpen(false);
+  }
 
   const [, dropRef] = useDrop({
     accept: 'ingredient',
@@ -108,16 +121,15 @@ const BurgerConstructor = () => {
             <p className="text text_type_digits-medium">{totalPrice ? totalPrice : 0}</p>
             <CurrencyIcon type="primary" />
           </div>
-          <Button htmlType="button" type="primary" size="large" onClick={createOrder}>
+          <Button htmlType="button" type="primary" size="large" onClick={openModal}>
             Оформить заказ
           </Button>
         </div>
-        <Modal handleClose={() => setModalIsOpen(false)} isOpen={modalIsOpen} header={""}>
-          { authorized ?
-              <OrderDetails />
-          : null
-          }
-        </Modal>
+        { modalIsOpen &&
+            <Modal handleClose={closeModal} header={""}>
+              <OrderDetails/>
+            </Modal>
+        }
       </section>
 
   )

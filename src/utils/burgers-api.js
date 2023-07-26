@@ -138,11 +138,10 @@ export const updateUserProfileRequest = (data) => {
 };
 
 export const getOrderNumberRequest = (ingredients) => {
-  return fetchWithRefresh(`${apiBurger}/orders`, {
+  return fetch(`${apiBurger}/orders`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: localStorage.getItem('accessToken')
     },
     body: JSON.stringify({
       ingredients: ingredients

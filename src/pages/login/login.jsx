@@ -2,7 +2,7 @@ import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer
 import { useCallback, useState } from "react";
 import styles from './login.module.css'
 import {Link, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch } from "react-redux";
 import { logIn } from "../../services/actions/user";
 
 export function LoginPage() {
@@ -27,7 +27,7 @@ export function LoginPage() {
           navigate('/');
         }
       },
-      [dispatch, form]
+      [dispatch, form, navigate]
   );
 
   return (

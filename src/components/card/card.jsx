@@ -30,13 +30,10 @@ const Card = ( { card } ) => {
   });
 
   return (
-        <li className={styles.card} ref={dragRef} key={card._id}>
+        <li className={styles.card} ref={dragRef}>
           <Link
               key={ingredientId}
-              // Тут мы формируем динамический путь для нашего ингредиента
               to={`/ingredients/${ingredientId}`}
-              // а также сохраняем в свойство background роут,
-              // на котором была открыта наша модалка
               state={{ background: location }}
               className={styles.card}
           >
