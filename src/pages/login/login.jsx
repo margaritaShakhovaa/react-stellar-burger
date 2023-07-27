@@ -26,9 +26,9 @@ export function LoginPage() {
     e.preventDefault();
     if (form.email !== '' && form.password !== '') {
       dispatch(logIn(form));
-      if (!authorized) {
-        navigate('/');
-      }
+      // if (!authorized) {
+      //   navigate('/');
+      // }
     }
   };
 
