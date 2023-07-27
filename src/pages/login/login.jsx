@@ -8,10 +8,10 @@ import { logIn } from "../../services/actions/user";
 export function LoginPage() {
 
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
-  //
-  // const getAuthorized = (store) => store.user.authorized;
-  // const authorized = useSelector(getAuthorized);
+  const navigate = useNavigate();
+
+  const getAuthorized = (store) => store.user.authorized;
+  const authorized = useSelector(getAuthorized);
 
   const [form, setForm] = useState({
     email: '',
@@ -26,6 +26,9 @@ export function LoginPage() {
     e.preventDefault();
     if (form.email !== '' && form.password !== '') {
       dispatch(logIn(form));
+      if (!authorized) {
+        navigate('/');
+      }
     }
   };
 
