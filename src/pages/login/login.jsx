@@ -1,17 +1,13 @@
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
 import styles from './login.module.css'
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { logIn } from "../../services/actions/user";
 
 export function LoginPage() {
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const getAuthorized = (store) => store.user.authorized;
-  const authorized = useSelector(getAuthorized);
 
   const [form, setForm] = useState({
     email: '',
@@ -26,9 +22,6 @@ export function LoginPage() {
     e.preventDefault();
     if (form.email !== '' && form.password !== '') {
       dispatch(logIn(form));
-      // if (!authorized) {
-      //   navigate('/');
-      // }
     }
   };
 

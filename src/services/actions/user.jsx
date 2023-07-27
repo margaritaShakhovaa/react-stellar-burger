@@ -9,9 +9,9 @@ import {
 } from "../../utils/burgers-api";
 
 // Запрос информации о пользователе
-export const GET_USER_REQUEST = 'GET_USER_REQUEST';
 export const GET_USER_FAILED = 'GET_USER_FAILED';
-export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
+export const SET_AUTH_CHECKED = "SET_AUTH_CHECKED";
+export const SET_USER = "SET_USER";
 
 // Логин
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -43,6 +43,32 @@ export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST';
 export const UPDATE_USER_FAILED = 'UPDATE_USER_FAILED';
 export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
 
+export const setAuthChecked = (value) => ({
+  type: SET_AUTH_CHECKED,
+  payload: value,
+});
+
+export const setUser = (user) => ({
+  type: SET_USER,
+  payload: user,
+});
+
+export function getUser() {
+  return (dispatch) => {
+    return getUserRequest()
+        .then((res) => {
+          if (res && res.success) {
+            dispatch(setUser(res.user));
+          } else {
+            dispatch({ type: GET_USER_FAILED })
+          }
+        })
+        .catch(() => {
+            dispatch({ type: LOGIN_FAILED });
+        });
+  };
+}
+
 export function logIn(data) {
   return function(dispatch) {
     dispatch({ type: LOGIN_REQUEST });
@@ -51,10 +77,8 @@ export function logIn(data) {
           if (res && res.success) {
             localStorage.setItem('accessToken', res.accessToken);
             localStorage.setItem('refreshToken', res.refreshToken);
-            dispatch({
-              type: LOGIN_SUCCESS,
-              data: res.user
-            });
+            dispatch(setUser(res.user));
+            dispatch(setAuthChecked(true));
         } else {
             dispatch({ type: LOGIN_FAILED });
           }
@@ -65,6 +89,22 @@ export function logIn(data) {
   };
 }
 
+export const checkUserAuth = () => {
+  return (dispatch) => {
+    if (localStorage.getItem("accessToken")) {
+      dispatch(getUser())
+          .catch(() => {
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("refreshToken");
+            dispatch(setUser(null));
+          })
+          .finally(() => dispatch(setAuthChecked(true)));
+    } else {
+      dispatch(setAuthChecked(true));
+    }
+  };
+};
+
 export function logOut(data) {
   return function(dispatch) {
     dispatch({ type: LOGOUT_REQUEST });
@@ -74,6 +114,7 @@ export function logOut(data) {
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
             dispatch({ type: LOGOUT_SUCCESS });
+            dispatch(setUser(null));
           } else {
             dispatch({ type: LOGOUT_FAILED });
           }
@@ -94,7 +135,7 @@ export function registerUser(data) {
             localStorage.setItem('refreshToken', res.refreshToken);
             dispatch({
               type: REGISTER_SUCCESS,
-              data: res
+              data: res.data
             });
           } else {
             dispatch({ type: REGISTER_FAILED });
@@ -102,26 +143,6 @@ export function registerUser(data) {
         })
         .catch(() => {
           dispatch({ type: REGISTER_FAILED });
-        });
-  };
-}
-
-export function getUser() {
-  return function(dispatch) {
-    dispatch({ type: GET_USER_REQUEST });
-    getUserRequest()
-        .then(res => {
-          if (res && res.success) {
-            dispatch({
-              type: GET_USER_SUCCESS,
-              data: res.user
-            });
-          } else {
-            dispatch({ type: GET_USER_FAILED });
-          }
-        })
-        .catch(() => {
-          dispatch({ type: GET_USER_FAILED });
         });
   };
 }

@@ -32,20 +32,20 @@ const BurgerConstructor = () => {
   // Логика открытия/закрытия модального окна с деталями заказа
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
-  // Проверяем, авторизован ли пользователь
-  const getAuthorized = (store) => store.user.authorized;
-  const authorized = useSelector(getAuthorized);
+  const getUserData = (store) => store.user.user;
+  const user = useSelector(getUserData);
 
   const openModal = () => {
-    if (!authorized) {
-      navigate('/login');
-    }
     createOrder();
     setModalIsOpen(true);
   };
 
   const createOrder = () => {
     const ingredientsId = fillings.map(item => item._id);
+    if (!user) {
+      navigate("/login");
+      return;
+    }
     if ( buns ) {
       ingredientsId.push(buns._id);
     }

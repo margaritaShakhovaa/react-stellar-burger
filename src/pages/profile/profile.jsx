@@ -56,14 +56,11 @@ export function ProfilePage() {
                     : `${styles.link}`} >
               <p className='text text_type_main-medium'>История заказов</p>
             </NavLink>
-            <NavLink
-                to='/login'
-                className={(current) => current.isActive
-                    ? `${styles.link} ${styles.current_link}`
-                    : `${styles.link}`}
+            <li
+                className={styles.link}
                 onClick={onLogout}>
               <p className='text text_type_main-medium'>Выход</p>
-            </NavLink>
+            </li>
             <p className={`pt-20 text text_type_main-default text_color_inactive ${styles.text}`}>В этом разделе вы можете просмотреть свою историю заказов</p>
           </div>
           <form className={styles.form} onSubmit={onUpdateUser}>

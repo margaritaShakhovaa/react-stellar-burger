@@ -22,6 +22,7 @@
     min-height: 64px;
     display: flex;
     transition: all .3s linear;
+    cursor: pointer;
 }
 
 .link:hover {

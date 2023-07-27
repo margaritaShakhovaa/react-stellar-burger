@@ -3,8 +3,6 @@ import {
   FORGOT_PASSWORD_REQUEST,
   FORGOT_PASSWORD_SUCCESS,
   GET_USER_FAILED,
-  GET_USER_REQUEST,
-  GET_USER_SUCCESS,
   LOGIN_FAILED,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -19,14 +17,14 @@ import {
   RESET_PASSWORD_SUCCESS,
   UPDATE_USER_FAILED,
   UPDATE_USER_REQUEST,
-  UPDATE_USER_SUCCESS
+  UPDATE_USER_SUCCESS,
+  SET_AUTH_CHECKED,
+  SET_USER
 } from "../actions/user";
 
 const initialState = {
   user: null,
-  authorized: false,
-
-  getUserRequest: false,
+  isAuthChecked: false,
   getUserFailed: false,
 
   loginRequest: false,
@@ -52,28 +50,23 @@ const initialState = {
 
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_USER_REQUEST: {
+    case SET_AUTH_CHECKED: {
       return {
         ...state,
-        getUserRequest: true
+        isAuthChecked: action.payload,
       };
     }
-    case GET_USER_SUCCESS: {
+    case SET_USER:
       return {
         ...state,
-        getUserRequest: false,
-        getUserFailed: false,
-        user: action.user,
-        authorized: true
+        user: action.payload,
       };
-    }
     case GET_USER_FAILED: {
       return {
         ...state,
         user: null,
         getUserRequest: false,
-        getUserFailed: true,
-        authorized: false
+        getUserFailed: true
       };
     }
     case LOGIN_REQUEST: {
@@ -87,8 +80,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         loginRequest: false,
         loginFailed: false,
-        user: action.data,
-        authorized: true
+        user: action.data
       };
     }
     case LOGIN_FAILED: {
@@ -111,7 +103,6 @@ export const userReducer = (state = initialState, action) => {
         logoutRequest: false,
         logoutFailed: false,
         user: null,
-        authorized: false
       };
     }
     case LOGOUT_FAILED: {
@@ -132,8 +123,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         registerRequest: false,
         registerFailed: false,
-        user: action.data.user,
-        authorized: true
+        user: action.data,
       };
     }
     case REGISTER_FAILED: {
