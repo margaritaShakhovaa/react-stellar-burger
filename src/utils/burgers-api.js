@@ -70,7 +70,7 @@ export const resetPasswordRequest = (data) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      email: data.email,
+      password: data.password,
       token: data.token
     })
   })
@@ -118,11 +118,10 @@ export const getUserRequest = () => {
       Authorization: localStorage.getItem('accessToken')
     }
   })
-      .then(checkResponse);
 };
 
 export const updateUserProfileRequest = (data) => {
-  return fetch(`${apiBurger}/auth/user`, {
+  return fetchWithRefresh(`${apiBurger}/auth/user`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -134,11 +133,10 @@ export const updateUserProfileRequest = (data) => {
       password: data.password
     })
   })
-      .then(checkResponse);
 };
 
 export const getOrderNumberRequest = (ingredients) => {
-  return fetch(`${apiBurger}/orders`, {
+  return fetchWithRefresh(`${apiBurger}/orders`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -148,5 +146,4 @@ export const getOrderNumberRequest = (ingredients) => {
       ingredients: ingredients
     }),
   })
-      .then(checkResponse);
 };

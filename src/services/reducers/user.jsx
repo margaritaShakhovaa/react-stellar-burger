@@ -40,12 +40,12 @@ const initialState = {
   updateUserFailed: false,
 
   forgotPasswordRequest: false,
-  forgotPasswordSuccess: false,
   forgotPasswordFailed: false,
 
   resetPasswordRequest: false,
-  resetPasswordSuccess: false,
-  resetPasswordFailed: false
+  resetPasswordFailed: false,
+
+  isPasswordChanged: false
 }
 
 export const userReducer = (state = initialState, action) => {
@@ -102,7 +102,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         logoutRequest: false,
         logoutFailed: false,
-        user: null,
+        user: null
       };
     }
     case LOGOUT_FAILED: {
@@ -123,7 +123,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         registerRequest: false,
         registerFailed: false,
-        user: action.data,
+        user: action.data
       };
     }
     case REGISTER_FAILED: {
@@ -164,15 +164,16 @@ export const userReducer = (state = initialState, action) => {
     case FORGOT_PASSWORD_SUCCESS: {
       return {
         ...state,
-        forgotPasswordSuccess: true,
-        forgotPasswordRequest: false
+        isPasswordChanged: true,
+        forgotPasswordRequest: false,
+        forgotPasswordFailed: false
       };
     }
     case FORGOT_PASSWORD_FAILED: {
       return {
         ...state,
         forgotPasswordRequest: false,
-        forgotPasswordFailed: true
+        forgotPasswordFailed: true,
       };
     }
     case RESET_PASSWORD_REQUEST: {
@@ -185,7 +186,8 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         resetPasswordRequest: false,
-        resetPasswordSuccess: true
+        isPasswordChanged: false,
+        resetPasswordFailed: false
       };
     }
     case RESET_PASSWORD_FAILED: {

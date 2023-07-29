@@ -12,18 +12,18 @@ export function ForgotPasswordPage() {
   const [form, setForm] = useState({
     email: ''
   });
-  const getForgotRequest = (store) => store.user.forgotPasswordSuccess;
-  const forgotRequest = useSelector(getForgotRequest);
-
-  useEffect(() => {
-    if (forgotRequest) {
-      navigate('/reset-password');
-    }
-  }, [navigate, forgotRequest]);
 
   const onChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  const isPasswordChanged = useSelector(store => store.user.isPasswordChanged);
+
+  useEffect(() => {
+    if (isPasswordChanged) {
+      navigate('/reset-password');
+    }
+  }, [navigate, isPasswordChanged]);
 
   const onConfirmEmail = useCallback(
       e => {

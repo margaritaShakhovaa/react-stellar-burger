@@ -14,26 +14,28 @@ export function ResetPasswordPage() {
     password: '',
     token: ''
   });
-  const getResetRequest = (store) => store.user.resetPasswordSuccess;
-  const resetRequest = useSelector(getResetRequest);
-
-  useEffect(() => {
-    if (resetRequest) {
-      navigate('/login');
-    }
-  }, [navigate, resetRequest]);
 
   const onChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  const isPasswordChanged = useSelector(store => store.user.isPasswordChanged);
+
+  useEffect(() => {
+    if (!isPasswordChanged) {
+      console.log(!isPasswordChanged);
+      navigate('/');
+    }
+  }, [navigate, isPasswordChanged]);
 
   const onChangePassword = useCallback(
       e => {
         e.preventDefault();
         if (form.password !== '' && form.token !== '') {
           dispatch(resetPassword(form));
+          navigate('/login');
         }
-      }, [form, dispatch]
+      }, [form, dispatch, navigate]
   );
 
   return (
