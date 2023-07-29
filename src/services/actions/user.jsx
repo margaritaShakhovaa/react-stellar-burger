@@ -135,7 +135,7 @@ export function registerUser(data) {
             localStorage.setItem('refreshToken', res.refreshToken);
             dispatch({
               type: REGISTER_SUCCESS,
-              data: res.data
+              data: res.user
             });
           } else {
             dispatch({ type: REGISTER_FAILED });
