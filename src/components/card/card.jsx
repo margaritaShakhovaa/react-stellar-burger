@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import styles from './card.module.css';
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientPropType } from "../../utils/prop-types";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
+import { Link, useLocation } from "react-router-dom";
 
-const Card = ( { card, onClick = () => {} } ) => {
+const Card = ( { card } ) => {
+
+  const location = useLocation();
+  const ingredientId = card['_id'];
 
   const getIngredients = (store) => store.burgerConstructor;
   const { buns, fillings }= useSelector(getIngredients);
@@ -27,7 +30,13 @@ const Card = ( { card, onClick = () => {} } ) => {
   });
 
   return (
-        <li className={styles.card} onClick={() => onClick(card)} ref={dragRef}>
+        <li className={styles.card} ref={dragRef}>
+          <Link
+              key={ingredientId}
+              to={`/ingredients/${ingredientId}`}
+              state={{ background: location }}
+              className={styles.card}
+          >
           { !!counter && <Counter count={counter} size="default" extraClass={`m-1`} /> }
           <img className={styles.img} src={card.image} alt={card.name}/>
           <div className={styles.price}>
@@ -35,13 +44,13 @@ const Card = ( { card, onClick = () => {} } ) => {
             <CurrencyIcon type="primary" />
           </div>
           <p className={`text text_type_main-default pt-1`}>{card.name}</p>
+          </Link>
         </li>
   )
 }
 
 Card.propTypes = {
-  card: ingredientPropType.isRequired,
-  onClick: PropTypes.func.isRequired
+  card: ingredientPropType.isRequired
 };
 
 export default Card;

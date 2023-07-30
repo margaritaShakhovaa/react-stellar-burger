@@ -13,10 +13,13 @@ export const getOrder = (ingredientsId) => {
             dispatch({
               type: GET_ORDER_SUCCESS,
               order: number
-          });
+            });
           } else {
             dispatch({ type: GET_ORDER_FAILED });
           }
+        })
+        .catch(() => {
+          dispatch({ type: GET_ORDER_FAILED });
         });
-    };
+  };
 }
