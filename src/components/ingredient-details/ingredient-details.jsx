@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 
-function IngredientDetails() {
+const IngredientDetails = () => {
 
   const location = useLocation();
   const background = location.state && location.state.background;
