@@ -2,8 +2,7 @@ import BurgerIngredients from "../../components/burger-ingredients/burger-ingred
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 import styles from './home.module.css';
 
-
-export function HomePage() {
+const HomePage = () => {
 
   return (
       <main className={styles.main}>
@@ -11,4 +10,6 @@ export function HomePage() {
         <BurgerConstructor />
       </main>
   )
-}
+};
+
+export default HomePage;

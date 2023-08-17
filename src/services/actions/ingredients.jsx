@@ -22,4 +22,4 @@ export const getIngredients = () => {
           dispatch({ type: GET_INGREDIENTS_FAILED });
         })
   };
-}
+};

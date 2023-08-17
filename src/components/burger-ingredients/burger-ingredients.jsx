@@ -20,7 +20,7 @@ const BurgerIngredients = () => {
 
   useEffect(() => {
     dispatch(getIngredients())
-  }, [dispatch]);
+  }, []);
 
   // Логика переключения табов
   const [current, setCurrent] = React.useState('bun');
@@ -86,6 +86,6 @@ const BurgerIngredients = () => {
           </ul>
         </section>
   )
-}
+};
 
 export default BurgerIngredients;

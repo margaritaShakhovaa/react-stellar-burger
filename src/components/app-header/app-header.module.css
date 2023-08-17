@@ -9,6 +9,13 @@
 
 .menu {
     display: flex;
+    justify-content: space-between;
+    width: 1280px;
+}
+
+.left_menu {
+    display: flex;
+    gap: 8px;
 }
 
 .menu_item {
@@ -22,5 +29,6 @@
 .logo {
     position: absolute;
     left: 50%;
+    top: 19px;
     transform: translate(-50%);
 }

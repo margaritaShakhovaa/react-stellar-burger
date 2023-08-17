@@ -1,4 +1,4 @@
-const apiBurger = 'https://norma.nomoreparties.space/api';
+import { apiBurger } from "./constants";
 
 const checkResponse = (res) => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
@@ -146,4 +146,8 @@ export const getOrderNumberRequest = (ingredients) => {
       ingredients: ingredients
     }),
   })
+};
+
+export const getOrderRequest = (order) => {
+  return fetch(`${apiBurger}/orders/${order}`).then(checkResponse)
 };

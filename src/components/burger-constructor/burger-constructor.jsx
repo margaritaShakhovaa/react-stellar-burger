@@ -5,12 +5,12 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/ingredients";
-import { getOrder } from "../../services/actions/order";
+import { createOrderNumber } from "../../services/actions/order";
 import { useDrop } from "react-dnd";
 import { addIngredient } from "../../services/actions/burger-constructor";
 import MainIngredient from "../main-ingredient/main-ingredient";
 import { v4 as uuidv4 } from "uuid";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const BurgerConstructor = () => {
 
@@ -19,7 +19,7 @@ const BurgerConstructor = () => {
 
   useEffect(() => {
     dispatch(getIngredients())
-  }, [dispatch]);
+  }, []);
 
   // булочки
   const getBuns = (store) => store.burgerConstructor.buns;
@@ -48,10 +48,11 @@ const BurgerConstructor = () => {
     }
     if ( buns ) {
       ingredientsId.push(buns._id);
+      ingredientsId.push(buns._id);
     }
     if (ingredientsId.length > 0) {
       // Отправка запроса
-      dispatch(getOrder(ingredientsId))
+      dispatch(createOrderNumber(ingredientsId))
     }
   };
 
@@ -133,6 +134,6 @@ const BurgerConstructor = () => {
       </section>
 
   )
-}
+};
 
 export default BurgerConstructor;

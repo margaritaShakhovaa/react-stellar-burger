@@ -3,7 +3,7 @@ import React from "react";
 import done from '../../images/done.svg'
 import { useSelector } from "react-redux";
 
-function OrderDetails() {
+const OrderDetails = () => {
 
   const getOrderNumber = (store) => store.order.order;
   const orderNumber = useSelector(getOrderNumber);
@@ -17,6 +17,6 @@ function OrderDetails() {
         <p  className='text text_type_main-small text_color_inactive mt-2'>Дождитесь готовности на орбитальной станции</p>
       </div>
   )
-}
+};
 
 export default OrderDetails;

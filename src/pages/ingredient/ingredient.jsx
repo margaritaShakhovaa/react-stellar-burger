@@ -5,22 +5,21 @@ import { useParams } from "react-router";
 import IngredientDetails from "../../components/ingredient-details/ingredient-details";
 import styles from './ingredient.module.css';
 
-export const Ingredient = () => {
+const Ingredient = () => {
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch]);
-
   const getIngredientsList = (store) => store.ingredients.ingredients;
   const ingredientsList = useSelector(getIngredientsList);
   const { ingredientId } = useParams();
   const ingredient = ingredientsList.find(item => item._id === ingredientId);
 
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, [dispatch]);
+
   if (ingredient) {
     return (
-      <div className={`pt-30 ${styles.ingredients}`}>
+      <div className={`pt-30 ${styles.ingredient}`}>
         <p className='text text_type_main-large'>Детали ингредиента</p>
         <IngredientDetails item={ingredient} />
       </div>
@@ -28,3 +27,5 @@ export const Ingredient = () => {
 }
   return null;
 };
+
+export default Ingredient;

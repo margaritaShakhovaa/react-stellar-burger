@@ -3,40 +3,41 @@ import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-dev
 import styles from './app-header.module.css';
 import { NavLink, useLocation } from "react-router-dom";
 
-function AppHeader () {
+const AppHeader = () => {
 
   const { pathname } = useLocation();
 
   return (
       <header className={styles.header}>
         <nav className={styles.menu}>
-          <NavLink
-              to={{ pathname: `/` }}
-              className={`pt-4 pr-5 pb-4 pl-5 ${styles.menu_item}`}>
-            <BurgerIcon type={pathname === '/' ? "primary" : "secondary"} />
-            <p className={
-              `text_type_main-default ${pathname === '/' 
-                  ? "text_color_primary" 
-                  : "text_color_inactive"}`
-            }>
-              Конструктор
-            </p>
-          </NavLink>
+          <div className={styles.left_menu}>
+            <NavLink
+                to={{ pathname: `/` }}
+                className={`pt-4 pr-5 pb-4 pl-5 ${styles.menu_item}`}>
+              <BurgerIcon type={pathname === '/' ? "primary" : "secondary"} />
+              <p className={
+                `text_type_main-default ${pathname === '/'
+                    ? "text_color_primary"
+                    : "text_color_inactive"}`
+              }>
+                Конструктор
+              </p>
+            </NavLink>
 
 
-          <NavLink
-              to={{ pathname: `/orders` }}
-              className={`pt-4 pr-5 pb-4 pl-5 ${styles.menu_item}`}>
-            <ListIcon type={pathname === '/orders' ? "primary" : "secondary"} />
-            <p className={
-              `text_type_main-default ${pathname === '/orders' 
-                  ? "text_color_primary" 
-                  : "text_color_inactive"}`
-            }>
-              Лента заказов
-            </p>
-          </NavLink>
-        </nav>
+            <NavLink
+                to={{ pathname: `/feed` }}
+                className={`pt-4 pr-5 pb-4 pl-5 ${styles.menu_item}`}>
+              <ListIcon type={pathname === '/feed' ? "primary" : "secondary"} />
+              <p className={
+                `text_type_main-default ${pathname === '/feed'
+                    ? "text_color_primary"
+                    : "text_color_inactive"}`
+              }>
+                Лента заказов
+              </p>
+            </NavLink>
+          </div>
 
         <div className={styles.logo}>
           <Logo />
@@ -44,11 +45,11 @@ function AppHeader () {
 
         <div>
           <NavLink
-              to={{ pathname: `/profile` }}
+              to={{ pathname: `/profile/orders` }}
               className={`pt-4 pr-5 pb-4 pl-4 ${styles.menu_item}`}>
-            <ProfileIcon type={pathname === '/profile' ? "primary" : "secondary"} />
+            <ProfileIcon type={pathname === '/profile/orders' || pathname === '/profile' ? "primary" : "secondary"} />
             <p className={
-              `text_type_main-default ${pathname === '/profile' 
+              `text_type_main-default ${pathname === '/profile/orders' || pathname === '/profile'
                   ? "text_color_primary" 
                   : "text_color_inactive"}`
             }>
@@ -56,8 +57,9 @@ function AppHeader () {
             </p>
           </NavLink>
         </div>
+        </nav>
       </header>
     )
-}
+};
 
 export default AppHeader;

@@ -14,3 +14,13 @@ export const ingredientPropType = PropTypes.shape({
   image_large: PropTypes.string.isRequired,
   __v: PropTypes.number.isRequired
 });
+
+export const burgerPropType = PropTypes.shape({
+  price: PropTypes.number,
+  name: PropTypes.string,
+  _id: PropTypes.string.isRequired,
+  status: PropTypes.oneOf(['done', 'created', 'pending']),
+  createdAt: PropTypes.string,
+  updatedAt: PropTypes.string,
+  number: PropTypes.number,
+});
