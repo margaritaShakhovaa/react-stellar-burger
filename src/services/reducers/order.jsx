@@ -4,7 +4,7 @@ import {
   CREATE_ORDER_NUMBER_SUCCESS,
   GET_ORDER_FAILED,
   GET_ORDER_SUCCESS,
-  GET_ORDER_REQUEST
+  GET_ORDER_REQUEST, DELETE_ORDER_NUMBER
 } from "../actions/order";
 
 const initialState = {
@@ -13,6 +13,7 @@ const initialState = {
 
   createOrderNumberRequest: false,
   createOrderNumberFailed: false,
+  createOrderNumberSuccess: false,
 
   getOrderRequest: false,
   getOrderFailed: false,
@@ -31,6 +32,7 @@ export const orderReducer = (state = initialState, action) => {
         ...state,
         createOrderNumberFailed: false,
         createOrderNumberRequest: false,
+        createOrderNumberSuccess: true,
         order: action.order
       };
     }
@@ -60,6 +62,12 @@ export const orderReducer = (state = initialState, action) => {
         ...state,
         getOrderRequest: false,
         getOrderFailed: true
+      };
+    }
+    case DELETE_ORDER_NUMBER: {
+      return {
+        ...state,
+        order: null
       };
     }
     default:

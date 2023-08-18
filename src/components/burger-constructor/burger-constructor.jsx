@@ -1,25 +1,21 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./burger-constructor.module.css";
 import { ConstructorElement, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { useDispatch, useSelector } from "react-redux";
-import { getIngredients } from "../../services/actions/ingredients";
-import { createOrderNumber } from "../../services/actions/order";
+import { createOrderNumber, DELETE_ORDER_NUMBER } from "../../services/actions/order";
 import { useDrop } from "react-dnd";
 import { addIngredient } from "../../services/actions/burger-constructor";
 import MainIngredient from "../main-ingredient/main-ingredient";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
+import Loader from "../loader/loader";
 
 const BurgerConstructor = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    dispatch(getIngredients())
-  }, []);
 
   // булочки
   const getBuns = (store) => store.burgerConstructor.buns;
@@ -35,6 +31,9 @@ const BurgerConstructor = () => {
   const getUserData = (store) => store.user.user;
   const user = useSelector(getUserData);
 
+  const getOrderSuccess = (store) => store.order.createOrderNumberSuccess;
+  const orderSuccess = useSelector(getOrderSuccess);
+
   const openModal = () => {
     createOrder();
     setModalIsOpen(true);
@@ -46,7 +45,7 @@ const BurgerConstructor = () => {
       navigate("/login");
       return;
     }
-    if ( buns ) {
+    if (buns) {
       ingredientsId.push(buns._id);
       ingredientsId.push(buns._id);
     }
@@ -58,7 +57,8 @@ const BurgerConstructor = () => {
 
   const closeModal =() => {
     setModalIsOpen(false);
-  }
+    dispatch({ type: DELETE_ORDER_NUMBER })
+  };
 
   const [, dropRef] = useDrop({
     accept: 'ingredient',
@@ -122,13 +122,24 @@ const BurgerConstructor = () => {
             <p className="text text_type_digits-medium">{totalPrice ? totalPrice : 0}</p>
             <CurrencyIcon type="primary" />
           </div>
-          <Button htmlType="button" type="primary" size="large" onClick={openModal}>
+          <Button
+              htmlType="button"
+              type="primary"
+              size="large"
+              onClick={ buns
+              ? openModal
+              : null
+              }
+          >
             Оформить заказ
           </Button>
         </div>
         { modalIsOpen &&
             <Modal handleClose={closeModal} header={""}>
-              <OrderDetails/>
+              { orderSuccess
+                  ? <OrderDetails/>
+                  : <Loader/>
+              }
             </Modal>
         }
       </section>

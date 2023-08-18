@@ -2,13 +2,10 @@ import React, {useEffect} from "react";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Card from '../card/card';
-import { useDispatch, useSelector } from "react-redux";
-import { getIngredients } from "../../services/actions/ingredients";
+import { useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
 
 const BurgerIngredients = () => {
-
-  const dispatch = useDispatch();
 
   // Чтение ингредиентов из стора
   const getBurgerIngredients = (store) => store.ingredients.ingredients;
@@ -17,10 +14,6 @@ const BurgerIngredients = () => {
   const bun = React.useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
   const sauces = React.useMemo(() => ingredients.filter(item => item.type === 'sauce'), [ingredients]);
   const main = React.useMemo(() => ingredients.filter(item => item.type === 'main'), [ingredients]);
-
-  useEffect(() => {
-    dispatch(getIngredients())
-  }, []);
 
   // Логика переключения табов
   const [current, setCurrent] = React.useState('bun');

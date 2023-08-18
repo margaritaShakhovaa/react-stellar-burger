@@ -21,6 +21,7 @@ import FeedPage from "../../pages/feed/feed";
 import OrderInfoPage from "../../pages/order-info/order-info";
 import Orders from "../orders/orders";
 import ProfileEdit from "../profile-edit/profile-edit";
+import { getIngredients } from "../../services/actions/ingredients";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,10 @@ const App = () => {
 
   useEffect(() => {
     dispatch(checkUserAuth());
+  }, []);
+
+  useEffect(() => {
+    dispatch(getIngredients())
   }, []);
 
   const handleModalClose = () => {

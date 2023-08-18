@@ -13,7 +13,7 @@ const Modal = ({ handleClose, children, header }) => {
     const closeOnEscapeKey = e => e.key === "Escape" ? handleClose() : null;
     document.body.addEventListener("keydown", closeOnEscapeKey);
     return () => {
-      document.removeEventListener("keydown", closeOnEscapeKey);
+      document.body.removeEventListener("keydown", closeOnEscapeKey);
     }},
       [handleClose]
   );

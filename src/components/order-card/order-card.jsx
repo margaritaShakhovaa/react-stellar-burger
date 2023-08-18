@@ -1,24 +1,17 @@
 import styles from './order-card.module.css';
 import { FormattedDate, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getIngredients } from "../../services/actions/ingredients";
+import { useSelector } from "react-redux";
 import { getStatus, getTimeZone } from "../../utils/constants";
 
 const OrderCard = (props) => {
 
-  const dispatch = useDispatch();
   const { pathname } = useLocation()
   const location = useLocation();
   const { number, createdAt, name, ingredients, _id, status } = props.order;
   const getIngredientsList = store => store.ingredients.ingredients;
   const ingredientsList = useSelector(getIngredientsList);
   const images = [];
-
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, []);
 
   const totalPrice = ingredients && ingredientsList && ingredients.reduce((total, id) => {
     ingredientsList && ingredientsList.forEach(item => {
