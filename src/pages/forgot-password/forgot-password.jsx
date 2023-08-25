@@ -2,14 +2,15 @@ import styles from "./forgot-password.module.css";
 import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { forgotPassword } from "../../services/actions/user";
+import {useForm} from "../../hooks/useForm";
 
 const ForgotPasswordPage = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [form, setForm] = useState({
+  const { form, onChange } = useForm({
     email: ''
   });
   const isPasswordChanged = useSelector(store => store.user.isPasswordChanged);
@@ -19,10 +20,6 @@ const ForgotPasswordPage = () => {
       navigate('/reset-password');
     }
   }, [navigate, isPasswordChanged]);
-
-  const onChange = e => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
   const onConfirmEmail = useCallback(
       e => {
