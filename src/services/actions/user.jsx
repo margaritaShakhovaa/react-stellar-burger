@@ -56,12 +56,8 @@ export const setUser = (user) => ({
 export function getUser() {
   return (dispatch) => {
     return getUserRequest()
-        .then((res) => {
-          if (res && res.success) {
+        .then(res => {
             dispatch(setUser(res.user));
-          } else {
-            dispatch({ type: GET_USER_FAILED })
-          }
         })
         .catch(() => {
             dispatch({ type: LOGIN_FAILED });
@@ -74,14 +70,10 @@ export function logIn(data) {
     dispatch({ type: LOGIN_REQUEST });
     loginRequest(data)
         .then(res => {
-          if (res && res.success) {
             localStorage.setItem('accessToken', res.accessToken);
             localStorage.setItem('refreshToken', res.refreshToken);
             dispatch(setUser(res.user));
             dispatch(setAuthChecked(true));
-        } else {
-            dispatch({ type: LOGIN_FAILED });
-          }
         })
         .catch(() => {
           dispatch({ type: LOGIN_FAILED });
@@ -109,15 +101,11 @@ export function logOut(data) {
   return function(dispatch) {
     dispatch({ type: LOGOUT_REQUEST });
     logoutRequest(data)
-        .then(res => {
-          if (res && res.success) {
+        .then(() => {
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
             dispatch({ type: LOGOUT_SUCCESS });
             dispatch(setUser(null));
-          } else {
-            dispatch({ type: LOGOUT_FAILED });
-          }
         })
         .catch(() => {
           dispatch({ type: LOGOUT_FAILED });
@@ -130,16 +118,12 @@ export function registerUser(data) {
     dispatch({ type: REGISTER_REQUEST });
     registerRequest(data)
         .then(res => {
-          if (res && res.success) {
             localStorage.setItem('accessToken', res.accessToken);
             localStorage.setItem('refreshToken', res.refreshToken);
             dispatch({
               type: REGISTER_SUCCESS,
               data: res.user
             });
-          } else {
-            dispatch({ type: REGISTER_FAILED });
-          }
         })
         .catch(() => {
           dispatch({ type: REGISTER_FAILED });
@@ -152,14 +136,10 @@ export function updateUser(data) {
     dispatch({ type: UPDATE_USER_REQUEST });
     updateUserProfileRequest(data)
         .then(res => {
-          if (res && res.success) {
             dispatch({
               type: UPDATE_USER_SUCCESS,
               data: res.user
             });
-          } else {
-            dispatch({ type: UPDATE_USER_FAILED });
-          }
         })
         .catch(() => {
           dispatch({ type: UPDATE_USER_FAILED });
@@ -171,12 +151,8 @@ export function forgotPassword(email) {
   return function(dispatch) {
     dispatch({ type: FORGOT_PASSWORD_REQUEST });
     forgotPasswordRequest(email)
-        .then(res => {
-          if (res && res.success) {
+        .then(() => {
             dispatch({ type: FORGOT_PASSWORD_SUCCESS });
-          } else {
-            dispatch({ type: FORGOT_PASSWORD_FAILED });
-          }
         })
         .catch(() => {
           dispatch({ type: FORGOT_PASSWORD_FAILED });
@@ -188,12 +164,8 @@ export function resetPassword(password) {
   return function(dispatch) {
     dispatch({ type: RESET_PASSWORD_REQUEST });
     resetPasswordRequest(password)
-        .then(res => {
-          if (res && res.success) {
+        .then(() => {
             dispatch({ type: RESET_PASSWORD_SUCCESS });
-          } else {
-            dispatch({ type: RESET_PASSWORD_FAILED });
-          }
         })
         .catch(() => {
           dispatch({ type: RESET_PASSWORD_FAILED });

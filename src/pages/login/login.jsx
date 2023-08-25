@@ -1,22 +1,18 @@
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
 import styles from './login.module.css'
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../services/actions/user";
+import { useForm } from "../../hooks/useForm";
 
 const LoginPage = () => {
 
   const dispatch = useDispatch();
 
-  const [form, setForm] = useState({
+  const { form, onChange } = useForm({
     email: '',
     password: ''
   });
-
-  const onChange = e => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
   const login = (e) => {
     e.preventDefault();

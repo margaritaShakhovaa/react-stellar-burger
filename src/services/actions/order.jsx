@@ -14,15 +14,11 @@ export const createOrderNumber = (ingredientsId) => {
   return function(dispatch) {
     dispatch({ type: CREATE_ORDER_NUMBER_REQUEST });
     getOrderNumberRequest(ingredientsId)
-        .then(({ success, order: { number } }) => {
-          if (success) {
+        .then(({ order: { number } }) => {
             dispatch({
               type: CREATE_ORDER_NUMBER_SUCCESS,
               order: number
             });
-          } else {
-            dispatch({ type: CREATE_ORDER_NUMBER_FAILED });
-          }
         })
         .catch(() => {
           dispatch({ type: CREATE_ORDER_NUMBER_FAILED });
@@ -35,15 +31,11 @@ export function getOrder(number) {
     dispatch({ type: GET_ORDER_REQUEST });
     getOrderRequest(number)
         .then((res) => {
-          if (res.success) {
             dispatch({
               type: GET_ORDER_SUCCESS,
               payload: res.orders[0],
             });
             dispatch({ type: DELETE_ALL_INGREDIENTS });
-          } else {
-            dispatch({ type: GET_ORDER_FAILED });
-          }
         })
         .catch(() => {
           dispatch({ type: GET_ORDER_FAILED });

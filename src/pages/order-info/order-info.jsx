@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { FormattedDate, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './order-info.module.css';
 import { getOrder } from "../../services/actions/order";
-import { getIngredients } from "../../services/actions/ingredients";
 import PropTypes from "prop-types";
 import { getStatus, getTimeZone } from "../../utils/constants";
 
@@ -21,10 +20,6 @@ const OrderInfoPage = ({ isModal }) => {
   const getOrderId = store => store.order;
   const { orderData } = useSelector(getOrderId);
   const { name, number, ingredients, status, createdAt } = orderData;
-
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, []);
 
   useEffect(() => {
     dispatch(getOrder(id));

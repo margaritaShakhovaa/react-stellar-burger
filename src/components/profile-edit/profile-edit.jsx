@@ -1,23 +1,19 @@
 import styles from "./profile-edit.module.css";
 import { Button, EmailInput, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
 import { updateUser } from "../../services/actions/user";
+import { useForm } from "../../hooks/useForm";
 
 const ProfileEdit = () => {
 
   const dispatch = useDispatch();
   const getUser = (store) => store.user.user;
   const user = useSelector(getUser);
-  const [form, setForm] = useState({
+  const { form, onChange, setForm } = useForm({
     email: user.email,
     password: '',
     name: user.name
   });
-
-  const onChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
   const onResetUserData = (e) => {
     e.preventDefault();
