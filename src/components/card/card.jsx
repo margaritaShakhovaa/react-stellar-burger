@@ -47,7 +47,7 @@ const Card = ( { card } ) => {
           </Link>
         </li>
   )
-}
+};
 
 Card.propTypes = {
   card: ingredientPropType.isRequired

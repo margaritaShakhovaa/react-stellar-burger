@@ -23,7 +23,7 @@ const MainIngredient = ({ item, index }) => {
 
   const sortIngredientsOrder = useCallback((fromIndex, toIndex) => {
     dispatch(sortIngredients(fromIndex, toIndex))
-  }, [dispatch]);
+  }, []);
 
   const [, dropRef] = useDrop({
     accept: 'filling',
@@ -57,7 +57,7 @@ const MainIngredient = ({ item, index }) => {
         />
       </li>
   )
-}
+};
 
 MainIngredient.propTypes = {
   index: PropTypes.number.isRequired,

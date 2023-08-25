@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect, useState } from "react";
 import { resetPassword} from "../../services/actions/user";
 
-
-export function ResetPasswordPage() {
+const ResetPasswordPage = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -67,4 +66,6 @@ export function ResetPasswordPage() {
         </p>
       </div>
   )
-}
+};
+
+export default ResetPasswordPage;

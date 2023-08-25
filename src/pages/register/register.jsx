@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useCallback, useState } from "react";
 import { registerUser } from "../../services/actions/user";
 
-export function RegisterPage() {
+const RegisterPage = () => {
 
   const dispatch = useDispatch();
   const [form, setForm] = useState({
@@ -60,4 +60,6 @@ export function RegisterPage() {
       </p>
     </div>
   )
-}
+};
+
+export default RegisterPage;

@@ -1,93 +1,70 @@
-const apiBurger = 'https://norma.nomoreparties.space/api';
+import { apiBurger, checkResponse, request } from "./constants";
 
-const checkResponse = (res) => {
-  return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
-};
+export const getIngredientsRequest = () => request('/ingredients');
 
-export const getIngredientsRequest = () => {
-  return fetch(`${apiBurger}/ingredients`).then(checkResponse)
-};
-
-export const loginRequest = (data) => {
-  return fetch(`${apiBurger}/auth/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      email: data.email,
-      password: data.password
-    })
+export const loginRequest = (data) => request('/auth/login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email: data.email,
+    password: data.password
   })
-      .then(checkResponse);
-};
+});
 
-export const logoutRequest = (data) => {
-  return fetch(`${apiBurger}/auth/logout`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      token: data
-    })
+export const logoutRequest = (data) => request('/auth/logout', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    token: data
   })
-      .then(checkResponse);
-};
+});
 
-export const registerRequest = (data) => {
-  return fetch(`${apiBurger}/auth/register`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      email: data.email,
-      password: data.password,
-      name: data.name
-    })
+export const registerRequest = (data) => request('/auth/register', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email: data.email,
+    password: data.password,
+    name: data.name
   })
-      .then(checkResponse);
-};
+});
 
-export const forgotPasswordRequest = (data) => {
-  return fetch(`${apiBurger}/password-reset`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      email: data.email
-    })
+export const forgotPasswordRequest = (data) => request('/password-reset', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email: data.email
   })
-      .then(checkResponse);
-};
+});
 
-export const resetPasswordRequest = (data) => {
-  return fetch(`${apiBurger}/password-reset/reset`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      password: data.password,
-      token: data.token
-    })
+export const resetPasswordRequest = (data) => request('/password-reset/reset', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    password: data.password,
+    token: data.token
   })
-      .then(checkResponse);
-};
+});
 
-export const refreshToken = () => {
-  return fetch(`${apiBurger}/auth/token`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-    },
-    body: JSON.stringify({
-      token: localStorage.getItem('refreshToken')
-    }),
-  }).then(checkResponse);
-};
+export const refreshToken = () => request('/auth/token', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8',
+  },
+  body: JSON.stringify({
+    token: localStorage.getItem('refreshToken')
+  }),
+});
 
 export const fetchWithRefresh = async (url, options) => {
   try {
@@ -147,3 +124,5 @@ export const getOrderNumberRequest = (ingredients) => {
     }),
   })
 };
+
+export const getOrderRequest = (order) => request(`/orders/${order}`);

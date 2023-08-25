@@ -1,17 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getIngredients } from "../../services/actions/ingredients";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import IngredientDetails from "../../components/ingredient-details/ingredient-details";
 import styles from './ingredient.module.css';
 
-export const Ingredient = () => {
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch]);
+const Ingredient = () => {
 
   const getIngredientsList = (store) => store.ingredients.ingredients;
   const ingredientsList = useSelector(getIngredientsList);
@@ -20,7 +12,7 @@ export const Ingredient = () => {
 
   if (ingredient) {
     return (
-      <div className={`pt-30 ${styles.ingredients}`}>
+      <div className={`pt-30 ${styles.ingredient}`}>
         <p className='text text_type_main-large'>Детали ингредиента</p>
         <IngredientDetails item={ingredient} />
       </div>
@@ -28,3 +20,5 @@ export const Ingredient = () => {
 }
   return null;
 };
+
+export default Ingredient;

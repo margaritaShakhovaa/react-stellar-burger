@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../services/actions/user";
 
-export function LoginPage() {
+const LoginPage = () => {
 
   const dispatch = useDispatch();
 
@@ -53,4 +53,6 @@ export function LoginPage() {
         </p>
       </div>
   )
-}
+};
+
+export default LoginPage;

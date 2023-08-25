@@ -7,17 +7,16 @@ import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById('modals');
 
-function Modal({ handleClose, children, header }) {
+const Modal = ({ handleClose, children, header }) => {
 
   useEffect(() => {
     const closeOnEscapeKey = e => e.key === "Escape" ? handleClose() : null;
     document.body.addEventListener("keydown", closeOnEscapeKey);
     return () => {
-      document.removeEventListener("keydown", closeOnEscapeKey);
+      document.body.removeEventListener("keydown", closeOnEscapeKey);
     }},
       [handleClose]
   );
-
 
   return createPortal (
       (
@@ -35,12 +34,12 @@ function Modal({ handleClose, children, header }) {
           </div>
       ), modalRoot
   );
-}
-
-export default Modal;
+};
 
 Modal.propTypes = {
   handleClose: PropTypes.func.isRequired,
-  header: PropTypes.string.isRequired,
-  children: PropTypes.element.isRequired
-}
+  header: PropTypes.string,
+  children: PropTypes.element
+};
+
+export default Modal;
