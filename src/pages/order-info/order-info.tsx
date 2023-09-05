@@ -5,7 +5,7 @@ import styles from './order-info.module.css';
 import { getOrder } from "../../services/actions/order";
 import { getStatus, getTimeZone } from "../../utils/constants";
 import { useDispatch, useSelector } from "../../services/types/hooks";
-import {TIngredientsData} from "../../services/types/data";
+import { TIngredient } from "../../services/types/data";
 
 type TOrderInfoPage = {
   isModal?: boolean;
@@ -15,8 +15,8 @@ const OrderInfoPage: FC<TOrderInfoPage> = ({ isModal }) => {
 
   const dispatch = useDispatch();
   const { id } = useParams();
-  const counter = {};
-  const ingredientsData: TIngredientsData[] = [];
+  const ingredientsData: TIngredient[] = [];
+  const counter: {[key: string]: number} = {};
 
   const ingredientsList = useSelector((store) => store.ingredients.ingredients);
 
@@ -36,16 +36,14 @@ const OrderInfoPage: FC<TOrderInfoPage> = ({ isModal }) => {
     return total;
   }, 0);
 
+
   if (ingredients && ingredientsList) {
     ingredients.forEach((item) => {
-      // @ts-ignore
       if (counter[item] === undefined) {
-        // @ts-ignore
         counter[item] = 1;
-        // @ts-ignore
-        ingredientsData.push(ingredientsList.find(element => element._id === item));
+        const addedItem = ingredientsList.find(element => element._id === item);
+        addedItem && ingredientsData.push(addedItem);
       } else {
-        // @ts-ignore
         counter[item] ++;
       }
     })
@@ -86,7 +84,6 @@ const OrderInfoPage: FC<TOrderInfoPage> = ({ isModal }) => {
                     </div>
 
                     <div className={`${styles.price} mr-6`}>
-                      {/*@ts-ignore*/}
                       <span className='text text_type_digits-default'>{counter[item._id]}</span>
                       <span className='text text_type_main-default'>&nbsp;x&nbsp;</span>
                       <span className='text text_type_digits-default mr-2'>{item.price}</span>

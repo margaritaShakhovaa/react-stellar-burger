@@ -4,7 +4,7 @@ interface IUseForm {
   [key: string]: string;
 }
 
-export const useForm = (inputValues: IUseForm) => {
+export const useForm = <T extends IUseForm>(inputValues: T) => {
   const [form, setForm] = useState(inputValues);
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {

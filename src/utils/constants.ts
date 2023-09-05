@@ -1,3 +1,5 @@
+import { TIngredient, TOrder } from "../services/types/data";
+
 export const apiBurger = 'https://norma.nomoreparties.space/api';
 export const wsFeedUrl = 'wss://norma.nomoreparties.space/orders/all';
 export const accessToken: string | undefined = localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')?.slice(7) : '';
@@ -21,6 +23,26 @@ export const getStatus = (status: string) => {
   }
 };
 
+interface SuccessResponse {
+  success: true;
+  data: TIngredient[];
+  orders: TOrder[];
+  accessToken: string;
+  refreshToken: string;
+  user: {
+    email: string;
+    name: string;
+    password: string;
+  };
+}
+
+interface ErrorResponse {
+  success: false;
+  data: {
+    error: string;
+  };
+}
+
 // создаем функцию проверки ответа на `ok`
 export const checkResponse = (res: Response) => {
   if (res.ok) {
@@ -31,7 +53,7 @@ export const checkResponse = (res: Response) => {
 };
 
 // создаем функцию проверки на `success`
-const checkSuccess = (res: any) => {
+const checkSuccess = (res: SuccessResponse | ErrorResponse) => {
   if (res && res.success) {
     return res;
   }

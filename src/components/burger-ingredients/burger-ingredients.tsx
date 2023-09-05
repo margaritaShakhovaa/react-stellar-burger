@@ -10,9 +10,13 @@ const BurgerIngredients: FC = () => {
   // Чтение ингредиентов из стора
   const ingredients = useSelector((store) => store.ingredients.ingredients);
 
-  const bun = React.useMemo(() => ingredients.filter((item) => item.type === 'bun'), [ingredients]);
-  const sauces = React.useMemo(() => ingredients.filter((item) => item.type === 'sauce'), [ingredients]);
-  const main = React.useMemo(() => ingredients.filter((item) => item.type === 'main'), [ingredients]);
+  const { bun, sauces, main } = React.useMemo(() => {
+    return {
+      bun: ingredients.filter((item) => item.type === 'bun'),
+      sauces: ingredients.filter((item) => item.type === 'sauce'),
+      main: ingredients.filter((item) => item.type === 'main')
+    }
+  }, [ingredients]);
 
   // Логика переключения табов
   const [current, setCurrent] = React.useState('bun');

@@ -52,6 +52,7 @@ export type TUser = {
     user: {
         email: string;
         name: string;
+        password: string;
     };
 };
 
