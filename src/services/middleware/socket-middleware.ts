@@ -1,6 +1,6 @@
-import { TFeedMiddleware, TProfileOrdersMiddleware } from "./middleware-types";
+import { TFeedMiddleware, TProfileOrdersMiddleware } from "../types/middleware-types";
 import { TProfileOrdersActions } from "../actions/profile-orders";
-import {TOrderFeedActions} from "../actions/order-feed";
+import { TOrderFeedActions } from "../actions/order-feed";
 
 export const socketMiddleware = (wsActions: TFeedMiddleware | TProfileOrdersMiddleware) => {
   return (store: { dispatch: (type: TProfileOrdersActions | TOrderFeedActions) => void; }) => {
